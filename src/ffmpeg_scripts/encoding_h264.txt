@@ -1,0 +1,1 @@
+-probesize 5000000 -c:v libx264 -preset ultrafast -tune film -x264opts keyint=5 -g 1 -crf 0 -bf 0 -pix_fmt yuv444p10le -s 1920x1080 -sar 1:1 -r 50 -c:a pcm_s32le -ar 96K -fflags +genpts

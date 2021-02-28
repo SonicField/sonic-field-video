@@ -29,4 +29,14 @@ Why this is not in Python
 
 That is a good question... I live in an environment with tens of millions of lines of Python for my day job; I don't want to take work home with me!
 
-**eEnjoy**
+
+Where do I get ffmpeg
+=====================
+
+I get it from here: https://evermeet.cx/ffmpeg/
+
+I make ZERO guarantees about the validity or security of the files from there!
+
+ffmpeg is awesome btw.
+
+**Enjoy**
