@@ -10,10 +10,10 @@
 # <*-audio>.nut
 
 . $(dirname "$0")/encoding.sh
-export command="${exe} -i '$1' -i '$2' ${enc} -map 0:v -map 1:a '${1%.*}-audio.nut'"
+cmd="${exe} -i '$1' -i '$2' ${enc} -map 0:v -map 1:a '${1%.*}-audio.nut'"
 echo
 echo '================================================================================'
-echo Will Run ${command}
+echo Will Run ${cmd}
 echo '================================================================================'
 echo
 echo $command > run.sh

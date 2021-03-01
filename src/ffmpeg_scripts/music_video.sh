@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Description:
-# Make a rotating visualizatio of audio for direct upload to youtube.
+# Make a rotating visualization of audio for direct upload to youtube.
 # The output is not in lossless full range - so do not expect it to be perfect is
 # further post processing is use.
 #

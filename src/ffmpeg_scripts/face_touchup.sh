@@ -18,8 +18,12 @@ cmd="${exe} -i '${1}' ${enc} -filter_complex \"
 curves=
     r='0/0 0.5/${red_mid_point} 1/1':
     g='0/0 0.5/0.5 1/1':
-    b='0/0 0.5/0.4 1/${blue_high_point}'
-[v];
+    b='0/0 0.5/0.4 1/${blue_high_point}',
+bilateral=
+    sigmaS=0.005:
+    sigmaR=0.05:5,
+unsharp
+[v]
 \" -map '[v]' '${1%.*}-warm.nut'"
 echo
 echo '================================================================================'

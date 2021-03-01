@@ -15,7 +15,7 @@ $(dirname "$0")/ffmpeg -y -i "$1" \
     -tune film \
     -c:a aac \
     -b:a 256k \
-    -pix_fmt yuv444p10le \
+    -pix_fmt yuv420p \
     -r 25\
     -sws_flags +accurate_rnd+full_chroma_int \
     -colorspace 1 \

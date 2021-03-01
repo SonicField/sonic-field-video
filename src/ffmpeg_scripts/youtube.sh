@@ -10,7 +10,7 @@
 # <*-finalized>.mp4
 
 $(dirname "$0")/ffmpeg -y -i "$1" \
-    -c:v libx265 -preset slow \
+    -c:v libx265 -preset medium \
     -crf 15 \
     -tune grain \
     -c:a aac \
