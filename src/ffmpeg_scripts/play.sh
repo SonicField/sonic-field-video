@@ -19,13 +19,17 @@ drawtext=
     fontcolor=yellow:
     boxcolor=black,
 format=yuv444p12le,
+curves=
+    all='0/0 0.01/0.001 0.5/0.25 1/1',
 tonemap=clip,
 zscale=
+    min=unspecified:
     f=lanczos:
     tin=linear:
     range=full:
     t=bt709:
     c=left:
     p=bt709:
-    m=bt709'
+    m=bt709
+'
 " -seek_interval 1.0 -fast -infbuf -noframedrop "${1}"

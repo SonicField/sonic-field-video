@@ -59,9 +59,6 @@ tmix=
 
 [origb][orig1][sharp]
 maskedmerge,
-scale=
-   1920x1080:
-   flags=bilinear,
 split=3
 [first1][first2][isharp2];
 
@@ -73,7 +70,7 @@ tblend=
 gblur=
     sigma=4,
 geq=
-lum='gt(lum(X,Y),${cut})*255':
+    lum='gt(lum(X,Y),${cut})*255':
     cb='gt(lum(X,Y),${cut})*255':
     cr='gt(lum(X,Y),${cut})*255',
 lagfun=

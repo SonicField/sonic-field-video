@@ -28,7 +28,7 @@ $(dirname "$0")/ffmpeg -y \
     -c:v libx265 \
     -x265-params \
        "repeat-headers=1:hdr-opt=1:colorprim=bt709:transfer=bt709:colormatrix=bt709" \
-    -crf 30 \
+    -crf 18 \
     -preset medium \
     -c:a aac \
     -b:a 128k \
@@ -41,15 +41,18 @@ $(dirname "$0")/ffmpeg -y \
     -color_range 2 \
     -chroma_sample_location left \
     -threads 8 \
-    -vf '
+    -vf "
 format=yuv444p12le,
+curves=
+    all='0/0 0.01/0.001 0.5/0.25 1/1',
 tonemap=clip,
 zscale=
+    min=unspecified:
     f=lanczos:
     tin=linear:
     range=full:
     t=bt709:
     c=left:
     p=bt709:
-    m=bt709' \
+    m=bt709" \
 ${1%.*}-youtube-bt709.mkv
