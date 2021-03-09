@@ -2,12 +2,27 @@
 # For normal speaching video on the Brio use 25.
 
 zmodload zsh/mathfunc
+
+# Frame rate
 r=25
-enc="-c:v libx264 -preset ultrafast -tune film -x264opts keyint=25 -qp 0 -pix_fmt yuv444p10le -sws_flags +accurate_rnd+full_chroma_int -s 1920x1080 -sar 1:1 -r ${r} -c:a pcm_s32le -ar 96K -fflags +igndts -fflags +genpts -colorspace 1 -color_primaries 1 -color_trc 1 -dst_range 1 -color_range 2"
-exe=$(dirname "$0")/ffmpeg
+
+# Round correctly for computing frames.
+# The magic divisor is depended on the r about TODO make this automatic
 function fps_round {
     dec=$(( int(rint((int(${1}*100%100))/2)*2) ))
     dec=$(print -f "%02d" ${dec} )
     echo $(( int(${1}) )).${dec}
 }
 
+# number of threads to use
+threads=2
+
+exe=$(dirname "$0")/ffmpeg
+
+raw_enc="-c:v rawvideo -pix_fmt yuv444p12le -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -sar 1:1 -r ${r} -c:a pcm_s32le -ar 96K -fflags +igndts -fflags +genpts -colorspace bt709 -color_primaries bt709 -color_trc linear -dst_range 1 -src_range 1 -color_range 2 -threads ${threads}"
+
+compress_enc="-c:v libx264 -preset ultrafast -qp 0 -c:a pcm_s32le -ar 96K -pix_fmt yuv444p10le -colorspace bt709 -color_primaries bt709 -color_trc linear -dst_range 1 -src_range 1 -color_range 2 -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -sar 1:1 -fflags +igndts -fflags +genpts -r ${r} -threads ${threads} -g ${r}"
+
+lossy_enc="-c:v libx264 -preset medium -crf 5 -c:a pcm_s32le -ar 96K -pix_fmt yuv444p10le -colorspace bt709 -color_primaries bt709 -color_trc linear -dst_range 1 -src_range 1 -color_range 2 -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -sar 1:1 -fflags +igndts -fflags +genpts -r ${r} -threads ${threads} -g ${r}"
+
+enc=$compress_enc

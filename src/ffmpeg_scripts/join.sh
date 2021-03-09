@@ -16,7 +16,16 @@ do
     out=${out}${file%.*}-
 done
 
-$(dirname "$0")/ffmpeg -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt -c:v rawvideo -c:a pcm_s32le -ar 96K  -fflags +igndts -fflags +genpts  "${out}"joined.nut
+. $(dirname "$0")/encoding.sh
+cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt -c:v copy -c:a copy -fflags +igndts -fflags +genpts '${out}joined.nut'"
+echo
+echo '================================================================================'
+echo Will Run ${cmd}
+echo '================================================================================'
+echo
+echo $cmd > run.sh
+. ./run.sh
+
 echo '================================================================================'
 echo Your file is "${out}"joined.nut
 echo '================================================================================'

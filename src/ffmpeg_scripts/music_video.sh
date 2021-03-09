@@ -16,7 +16,6 @@ exe="$(dirname "$0")/ffmpeg"
 
 # Notes on encoding:
 # ==================
-# - Youtube uses yuv420p so no point trying for something better here.
 # - We could use 4K upscaling to make a nicer video - but the point is music.
 # - Youtube uses 'tv' color range so we output to that to avoid Youtube converting it.
 # - Youtube will crush the quality anyhow so -crf 18 is probaby OK...
@@ -34,7 +33,7 @@ exe="$(dirname "$0")/ffmpeg"
 # - One trick is to add -threads 1 to the command line and just leave it running over night.
 # - Alternatively - work on streamlining the filters.
 
-enc="-c:v libx264 -preset medium -tune film -crf 18 -s 1920x1080 -sar 1:1 -r 50 -pix_fmt yuv420p -sws_flags +accurate_rnd+full_chroma_int -colorspace 1 -color_primaries 1 -color_trc 1 -dst_range 1 -color_range 1"
+enc="-c:v libx264 -preset medium -tune film -crf 18 -s 1920x1080 -sar 1:1 -r 50 -pix_fmt yuv444p10le -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -colorspace 1 -color_primaries 1 -color_trc 1 -dst_range 1 -color_range 1"
 
 cmd="${exe} -y -i '${1}' -i '${2}' ${enc} -ss 0 -to ${len} -filter_complex \
 \"

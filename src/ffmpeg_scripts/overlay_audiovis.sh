@@ -9,6 +9,8 @@
 # <*-ovaudio-vis>.nut
 #
 
+len=$($(dirname "$0")/get_length.sh "${1}")
+
 . $(dirname "$0")/encoding.sh
 
 # First get a wav file of the correct samples.
@@ -17,6 +19,19 @@ ${exe} -y -i "${1}" -filter_complex '[0:a]aresample=24000[a]' -map '[a]' tempa.w
 # looping and image seems to run for ever even with -shortest!
 len=$($(dirname "$0")/get_length.sh "${1}")
 cmd="${exe} -y -i tempa.wav -i '${2}' ${enc} -to ${len} -filter_complex \"
+[1:v]
+loop=
+    loop=-1:
+    start=0:
+    size=${len},
+scale=
+   size=400x400:
+   flags=lanczos,
+boxblur=
+    0:0:0:0:3:1,
+fps=50
+[img];
+
 [0:a]
 highpass=
     f=1,
@@ -38,11 +53,11 @@ showfreqs=
     ascale=lin:
     win_size=256:
     size=1920x540,
+format=rgba,
 lagfun=
     decay=0.99:
     planes=1,
 fps=${r},
-format=rgba,
 colorkey=
     color=0x00000000:
     similarity=0.01:

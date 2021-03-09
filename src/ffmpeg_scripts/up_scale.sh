@@ -9,8 +9,15 @@
 # <*-upscaled>.nut
 #
 
-. $(dirname "$0")/encoding-4k.sh
-cmd="${exe} -i '$1' ${enc} -vf 'scale=3840x2160:flags=lanczos' '${1%.*}-upscaled.nut'"
+. $(dirname "$0")/encoding.sh
+cmd="${exe} -i '$1' ${enc} -vf '
+format=yuv444p12le,
+zscale=
+    size=3840x2160:
+    d=error_diffusion:
+    f=lanczos:
+    rangein=full:
+    range=full' '${1%.*}-upscaled.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

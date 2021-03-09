@@ -6,11 +6,18 @@
 # <video in name>
 #
 # Out:
-# <*-downscaled>.nut
+# <*-upscaled>.nut
 #
 
-. $(dirname "$0")/encoding.sh
-cmd="${exe} -i '$1' ${enc} -vf 'scale=1920x1080:flags=bilinear' '${1%.*}-downscaled.nut'"
+. $(dirname "$0")/encoding-4k.sh
+cmd="${exe} -i '$1' ${enc} -vf '
+format=yuv444p12le,
+zscale=
+    size=1920x1080:
+    d=error_diffusion:
+    f=lanczos:
+    rangein=full:
+    range=full' '${1%.*}-upscaled.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

@@ -20,8 +20,9 @@ curves=
     g='0/0 0.5/0.5 1/1':
     b='0/0 0.5/0.4 1/${blue_high_point}',
 bilateral=
-    sigmaS=0.005:
-    sigmaR=0.05:5,
+    sigmaS=0.003:
+    sigmaR=0.03:
+    planes=5,
 unsharp
 [v]
 \" -map '[v]' '${1%.*}-warm.nut'"

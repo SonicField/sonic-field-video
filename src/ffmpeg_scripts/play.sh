@@ -5,9 +5,9 @@
 
 . $(dirname "$0")/encoding.sh
 font_file=$(dirname "$0")/Arial-Unicode.ttf
-$(dirname "$0")/ffplay -vf "
-scale=
-    size=1920x1080,
+$(dirname "$0")/ffplay -x 1920 -y 1080 -vf "
+scale=1920x1080:
+    flags=neighbor,
 drawtext=
     fontfile=${font_file}:
     text='%{n} %{pts\:hms}':
@@ -18,10 +18,14 @@ drawtext=
     shadowy=6:
     fontcolor=yellow:
     boxcolor=black,
+format=yuv444p12le,
+tonemap=clip,
 zscale=
-    rangein=full:
-    range=limited,
-format=yuv420p
-" -seek_interval 1.0 -fast "${1}"
-
-#rm temp_v.avi 2>/dev/null
+    f=lanczos:
+    tin=linear:
+    range=full:
+    t=bt709:
+    c=left:
+    p=bt709:
+    m=bt709'
+" -seek_interval 1.0 -fast -infbuf -noframedrop "${1}"

@@ -15,7 +15,8 @@ drawtext=
     shadowx=6:
     shadowy=6:
     fontcolor=yellow:
-    boxcolor=black
-" -seek_interval 1.0 -fast "${1}"
+    boxcolor=black,
+format=rgb24
+" -seek_interval 1.0 "${1}"
 
 #rm temp_v.avi 2>/dev/null
