@@ -23,7 +23,13 @@ bilateral=
     sigmaS=0.003:
     sigmaR=0.03:
     planes=5,
-unsharp
+unsharp,
+lutyuv=
+    u='(val-maxval/2)*2+maxval/2':
+    v='(val-maxval/2)*2+maxval/2',
+eq=
+    saturation=0.5:
+    gamma=0.75
 [v]
 \" -map '[v]' '${1%.*}-warm.nut'"
 echo
