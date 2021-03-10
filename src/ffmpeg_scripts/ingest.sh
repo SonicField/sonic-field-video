@@ -12,11 +12,11 @@
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '${1}' ${enc} -filter_complex '
 [0:v]
-scale=
-    size=1920x1080:
-    flags=lanczos,
 setsar=1:1,
-setpts=PTS-STARTPTS
+setpts=PTS-STARTPTS,
+scale=
+    in_range=limited:
+    out_range=full
 [v];
 
 [0:a]
