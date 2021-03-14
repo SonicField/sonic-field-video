@@ -223,7 +223,7 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-cmd="${exe} -i tempv.nut -i '${1}' ${enc} -map 0:v -map 1:a '${1%.*}-audio-vis.nut'"
+cmd="${exe} -i tempv.nut -i '${1}' -c:v copy -c:a pcm_s32le -ar 96K -map 0:v -map 1:a '${1%.*}-audio-vis.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -231,6 +231,4 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
-
-rm tempv.nut
 

@@ -20,7 +20,7 @@ loop=
     size=$((${r}*${2})),
 fps=${r},
 scale=
-    size=1920x1080:
+    size=3840x2160:
     flags=lanczos,
 setsar=1:1
 [v];

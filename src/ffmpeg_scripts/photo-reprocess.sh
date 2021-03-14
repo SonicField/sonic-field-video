@@ -13,14 +13,11 @@
 cmd="${exe} -y -i '${1}' ${enc} -ss 0 -to '${2}' -filter_complex \
 \"
 [0:v]
-format=yuv444p12le,
-crop=
-   out_w=in_w:
-   out_h=in_w*9/16:
-   x=0:
-   y=in_h-(in_w*9/16)/2,
+scale=in_range=full:out_range=full,
+format=gbrp16le,
 scale=
     size=3840x2160:
+    out_range=full:
     flags=lanczos,
 normalize=
     strength=1:
@@ -29,6 +26,7 @@ split=2
 [v1][v2];
 
 [v1]
+scale=in_range=full:out_range=full,
 unsharp=
     lx=13:
     ly=13:
@@ -39,14 +37,13 @@ unsharp=
 bilateral=
     sigmaS=0.2:
     sigmaR=0.2:
-    planes=9
+    planes=9,
+scale=in_range=full:out_range=full
 [vb];
 
 [v2][vb]
 blend=
-    all_mode=multiply,
-curves=
-    all='0/0 0.5/0.3 1/1',
+    all_mode=softlight,
 normalize=
     strength=1:
     independence=0,
@@ -55,7 +52,8 @@ loop=
     start=0:
     size=$((${r}*${2})),
 fps=${r},
-setsar=1:1
+setsar=1:1,
+scale=in_range=full:out_range=full
 [v];
 
 anullsrc=
@@ -70,3 +68,10 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+# If not 16/9
+# crop=
+#   out_w=in_w:
+#   out_h=in_w*9/16:
+#   x=0:
+#   y=in_h-(in_w*9/16)/2,

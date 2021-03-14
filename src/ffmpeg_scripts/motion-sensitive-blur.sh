@@ -27,9 +27,12 @@ cmp=$6
 cmd="${exe} -i '${vin}' ${enc} -filter_complex \
 \"
 [0:v]
+scale=in_range=full:out_range=full,
+vignette,
+scale=in_range=full:out_range=full,
+format=yuv444p12le,
 setsar=1:1,
 setpts=PTS-STARTPTS,
-format=rgba,
 split=3
 [orig1][orig2][isharp];
 
@@ -40,6 +43,8 @@ tblend=
     all_mode=difference,
 gblur=
     sigma=8,
+scale=in_range=full:out_range=full,
+format=yuv444p,
 geq=
     lum='gt(lum(X,Y),${cut})*255':
     cb='gt(lum(X,Y),${cut})*255':
@@ -47,10 +52,12 @@ geq=
 lagfun=
     decay=${dec},
 gblur=
-    sigma=16
+    sigma=16,
+scale=in_range=full:out_range=full
 [sharp];
 
 [orig2]
+scale=in_range=full:out_range=full,
 gblur=
     sigma=${sig},
 tmix=
@@ -59,6 +66,7 @@ tmix=
 
 [origb][orig1][sharp]
 maskedmerge,
+scale=in_range=full:out_range=full,
 split=3
 [first1][first2][isharp2];
 
@@ -69,6 +77,8 @@ tblend=
     all_mode=difference,
 gblur=
     sigma=4,
+scale=in_range=full:out_range=full,
+format=yuv444p,
 geq=
     lum='gt(lum(X,Y),${cut})*255':
     cb='gt(lum(X,Y),${cut})*255':
@@ -76,7 +86,8 @@ geq=
 lagfun=
     decay=${dec},
 gblur=
-    sigma=8
+    sigma=8,
+scale=in_range=full:out_range=full
 [sharp2];
 
 [first2]
@@ -85,16 +96,24 @@ gblur=
 tmix=
     frames=2,
 gradfun=
-    radius=16
+    radius=16:
+    strength=8,
+scale=in_range=full:out_range=full
 [firstb];
 
 [firstb][first1][sharp2]
 maskedmerge,
+scale=in_range=full:out_range=full,
+format=rgb48le,
+scale=in_range=full:out_range=full,
 curves=
     master='0/0.0 0.5/${cmp} 1/1',
+scale=in_range=full:out_range=full,
 hue=h=${hue}:
     s=0.9,
-vignette
+scale=
+   in_range=full:
+   out_range=full
 [v]
 
 \" -map '[v]' '${1%.*}-msb.nut'"

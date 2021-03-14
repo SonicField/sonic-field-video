@@ -46,9 +46,10 @@ echo "MASTERING: ${master}"
 
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
+    -v verbose \
     -c:v libx265 \
     -x265-params \
-       "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=1000,300:hdr10=1:dhdr10-info=metadata.json" \
+       "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=500,200:hdr10=1:dhdr10-info=metadata.json" \
     -crf 20 \
     -preset medium \
     -c:a aac \
@@ -62,13 +63,17 @@ $(dirname "$0")/ffmpeg -y \
     -color_range 2 \
     -chroma_sample_location left \
     -vf "
-format=yuv444p12le,
+scale=in_range=full:out_range=full,
+format=rgb48le,
+curves=
+    all='0/0 0.22/0.005 0.35/0.02 0.68/0.2 0.77/0.31 1/1',
+scale=in_range=full:out_range=full,
+format=gbrp16le,
 zscale=
+    npl=200:
+    rin=full:
+    range=limited:
     tin=linear:
-    transfer=linear,
-zscale=
-    f=lanczos:
-    range=full:
     t=smpte2084:
     c=left:
     p=2020:

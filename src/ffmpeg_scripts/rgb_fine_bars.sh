@@ -17,10 +17,11 @@ color=
     r=${r}:
     c=black,
 format=rgb24,
+scale=in_range=full:out_range=full,
 geq=
-r='eq(mod(X,3), 0) * 255':
-g='eq(mod(X,3), 1) * 255':
-b='eq(mod(X,3), 2) * 255',
+    r='eq(mod(X,3), 0) * 255':
+    g='eq(mod(X,3), 1) * 255':
+    b='eq(mod(X,3), 2) * 255',
 split=3
 [vi1][vi2][vi3];
 
