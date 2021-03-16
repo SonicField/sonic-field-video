@@ -18,7 +18,12 @@ ${exe} -y -i "${1}" -filter_complex '[0:a]aresample=24000[a]' -map '[a]' tempa.w
 
 cmd="${exe} -y -i tempa.wav  -i logo-alpha.png ${enc} -shortest -to '${len}' -filter_complex \"
 [1:v]
-format=rgba,
+format=gbrap16le,
+geq=
+r='16384+(r(X,Y)+g(X,Y)+b(X,Y))/4 + r(X,Y)*0.25':
+g='16384+(r(X,Y)+g(X,Y)+b(X,Y))/6 + g(X,Y)*0.5':
+b='16384+(r(X,Y)+g(X,Y)+b(X,Y))/6 + b(X,Y)*0.5':
+a='alpha(X,Y)',
 loop=
     loop=-1:
     start=0:
@@ -38,15 +43,16 @@ rotate=
     bilinear=1:
     fillcolor=0x00000000:
     angle=-PI * 2 * sin(t/10),
+format=gbrap16le,
 tmix=
    frames=12:
    weights='12 0.5',
+format=rgba,
 geq=
 r='r(X,Y)':
 g='g(X,Y)':
 b='b(X,Y)':
-a='gt(alpha(X,Y),80)*pow(alpha(X,Y)/255,2)*alpha(X,Y)',
-format=rgba
+a='gt(alpha(X,Y),80)*pow(alpha(X,Y)/255,2)*alpha(X,Y)'
 [img];
 
 
@@ -98,7 +104,8 @@ overlay=
     y=160:
     format=rgb,
 split=2
-[vp][v6];
+[vp]
+[v6];
 
 [vp]
 drawbox=
@@ -113,7 +120,6 @@ split=3
 [v1][v3][v8];
 
 [v1]
-format=yuv444p12le,
 perspective=
     sense=destination:
     x0=1850:
@@ -127,7 +133,7 @@ perspective=
 eq=
    saturation=0.5,
 curves=
-    all='0/0 1/0.25',
+    all='0/0 1/0.45',
 gradfun,
 colorkey=
     color=black:
@@ -136,7 +142,6 @@ colorkey=
 [v4];
 
 [v3]
-format=yuv444p12le,
 perspective=
     sense=destination:
     x0=0:
@@ -149,13 +154,13 @@ perspective=
     y3=1040,
 eq=
    saturation=0.5,
+format=gbrp16le,
 curves=
-    all='0/0 1/0.25',
+    all='0/0 1/0.45',
 gradfun
 [v5];
 
 [v8]
-format=yuv444p12le,
 perspective=
     sense=destination:
     x0=1850:
@@ -168,8 +173,9 @@ perspective=
     y3=1040,
 eq=
    saturation=0.5,
+format=gbrp16le,
 curves=
-    all='0/0 1/0.25',
+    all='0/0 1/0.45',
 gradfun,
 colorkey=
     color=black:
@@ -204,15 +210,11 @@ color=
 [bottom][top]
 overlay=
     format=rgb,
-format=yuv444p12le,
-scale=
-    in_range=limited:
-    out_range=full,
-eq=
-    saturation=1.2,
 gradfun=
     strength=8:
-    radius=4
+    radius=4,
+scale=in_range=full:out_range=full,
+format=gbrpf32le
 [v]
 \" -map '[v]' tempv.nut"
 echo

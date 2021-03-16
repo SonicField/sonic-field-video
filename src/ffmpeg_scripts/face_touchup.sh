@@ -15,28 +15,31 @@ blue_high_point=$((1.0 - ${2}*2))
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '${1}' ${enc} -filter_complex \"
 [0:v]
-scale=in_range=full:out_range=full,
-format=rgb48le,
+zscale=rin=full:r=full,
+format=gbrp16le,
+curves=
+    all='0/0 0.5/0.5 1/1',
 curves=
     r='0/0 0.5/${red_mid_point} 1/1':
     g='0/0 0.5/0.5 1/1':
-    b='0/0 0.5/0.4 1/${blue_high_point}',
-scale=in_range=full:out_range=full,
-format=yuv444p12le,
-scale=in_range=full:out_range=full,
-lutyuv=
-    u='(val-maxval/2)*2+maxval/2':
-    v='(val-maxval/2)*2+maxval/2',
-scale=in_range=full:out_range=full,
-eq=
-    saturation=0.5:
-    gamma=0.8,
+    b='0/0 0.5/0.5 1/${blue_high_point}',
+geq=
+r='(r(X,Y)+g(X,Y)+b(X,Y))/6 + r(X,Y)*0.5':
+g='(r(X,Y)+g(X,Y)+b(X,Y))/12 + g(X,Y)*0.75':
+b='(r(X,Y)+g(X,Y)+b(X,Y))/12 + b(X,Y)*0.75',
+zscale=rin=full:r=full,
 bilateral=
-    sigmaS=0.003:
-    sigmaR=0.03:
+    sigmaS=0.002:
+    sigmaR=0.02:
     planes=5,
-unsharp,
-scale=in_range=full:out_range=full
+atadenoise,
+zscale=rin=full:r=full,
+format=gbrp16le,
+geq=
+    r='r(X,Y)*gauss((X/W-0.5)*2)*gauss((Y/H-0.5)*2)/gauss(0)/gauss(0)':
+    g='g(X,Y)*gauss((X/W-0.5)*2)*gauss((Y/H-0.5)*2)/gauss(0)/gauss(0)':
+    b='b(X,Y)*gauss((X/W-0.5)*2)*gauss((Y/H-0.5)*2)/gauss(0)/gauss(0)',
+zscale=rin=full:r=full
 [v]
 \" -map '[v]' '${1%.*}-warm.nut'"
 echo

@@ -4,32 +4,33 @@
 # Play a video for review
 
 . $(dirname "$0")/encoding.sh
+
 font_file=$(dirname "$0")/Arial-Unicode.ttf
-$(dirname "$0")/ffplay -x 1920 -y 1080 -vf "
-scale=1920x1080:
-    flags=neighbor,
+$(dirname "$0")/ffplay -threads 8 -vf "
+format=gbrpf32le,
+zscale=
+    npl=200:
+    size=1920x1080:
+    dither=none:
+    f=point:
+    t=linear,
+tonemap=linear:
+    param=1.0:
+    desat=0,
+zscale=
+    m=bt709:
+    p=bt709:
+    t=bt709,
 drawtext=
     fontfile=${font_file}:
     text='%{n} %{pts\:hms}':
-    fontsize=64:
+    fontsize=32:
     x=(w-tw)/2:y=h-(2*lh):
     shadowcolor=black:
     shadowx=6:
     shadowy=6:
     fontcolor=yellow:
-    boxcolor=black,
-format=yuv444p12le,
-curves=
-    all='0/0 0.01/0.001 0.5/0.25 1/1',
-tonemap=clip,
-zscale=
-    min=unspecified:
-    f=lanczos:
-    tin=linear:
-    range=full:
-    t=bt709:
-    c=left:
-    p=bt709:
-    m=bt709
-'
-" -seek_interval 1.0 -fast -infbuf -noframedrop "${1}"
+    boxcolor=black
+" -seek_interval 1.0 "${1}"
+
+#rm temp_v.avi 2>/dev/null

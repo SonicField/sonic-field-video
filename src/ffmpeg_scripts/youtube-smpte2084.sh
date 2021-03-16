@@ -12,26 +12,17 @@
 # Notes to explane mappings.
 # ==========================
 # 
-# The input to this converter is in linear light however its output needs to be
-# in smpte2084/bt2020 for youtube to encode HDR.
-# Even though the encoding pipeline is metadata marked as smpt 2084
-# ffmpeg does not appear to be actually changing the color. Anyhow, this can be
-# worked around by telling zscale to treat the import as linear and the output as
-# smpte2084/bt2020. Then feed that into another zscale to upscale. The second one believes the
-# first and passed through smpte 2084 and we are golden.
+# At the moment I have not figured out how to convert the transfer from linear to smpte2084
+# using a built in library so am usng a custom settup with curves to regrade the incoming video
+# to smtpe HLG which is not perfect.
 #
-# Was that easy to figure out - no.
+# The correct soloution is to do the change with a correctly created converter - I have a gut feeling
+# there must be a way using zscale - I've just not found it yet. If it requires a C code change then
+# I'll send that back to the community.
 #
-# Note that smtpe/bt2020 uses a strange hybride gamma and color system - trying to figure this
-# out manually is sort of possible gamma wise but then red and blue are too dark. Be warned.
-#
-# Also - doing the conversions in yuv444p12le means the interpolation does not cause banding and we
-# cleanly then drop down to yuv444p10le on output so the mapping does not cause any noticable
-# degridation.
-#
-# The issue here is that at the time I was doing all this, HDR on youtube seems broken and all
-# the input gets brightness squashed so peek white becomes 90% white. All in all I just gave
-# up and went over to bt709.
+# For youtube the NPL - nominal peak luminance is important and a value to 200 seems about right
+# which is odd because the standard is 1000 but I think youtube is using this to figure out how
+# to scale the brightness to stream corectly and setting it higher just washes out the highlights.
 #
 
 zmodload zsh/mathfunc
@@ -46,11 +37,10 @@ echo "MASTERING: ${master}"
 
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
-    -v verbose \
     -c:v libx265 \
     -x265-params \
        "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=500,200:hdr10=1:dhdr10-info=metadata.json" \
-    -crf 20 \
+    -crf 15 \
     -preset medium \
     -c:a aac \
     -b:a 256k \
@@ -62,20 +52,23 @@ $(dirname "$0")/ffmpeg -y \
     -color_trc smpte2084 \
     -color_range 2 \
     -chroma_sample_location left \
+    -fflags +igndts \
+    -fflags +genpts \
     -vf "
-scale=in_range=full:out_range=full,
-format=rgb48le,
-curves=
-    all='0/0 0.22/0.005 0.35/0.02 0.68/0.2 0.77/0.31 1/1',
-scale=in_range=full:out_range=full,
-format=gbrp16le,
+zscale=in_range=full:out_range=full,
+format=gbrpf32le,
 zscale=
-    npl=200:
+    t=linear,
+tonemap=linear:
+    param=1.0:
+    desat=0,
+zscale=
+    npl=175:
     rin=full:
-    range=limited:
-    tin=linear:
     t=smpte2084:
+    m=2020_ncl:
     c=left:
     p=2020:
-    m=2020_ncl
-"  "${1%.*}-youtube-smpte2084.mkv"
+    r=full
+" ${1%.*}-youtube-smpte2084.mkv
+

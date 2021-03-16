@@ -3,25 +3,44 @@
 # Ingest video for editing
 #
 # Args:
-# <video in name>
+# <video in name> <offset of time in seconds>
 #
 # Out:
-# <*-4k>.nut
+# <in name-logi>.nut
 #
 
-len=$($(dirname "$0")/get_length.sh "${1}")
-
-. $(dirname "$0")/encoding-4k.sh
-cmd="${exe} -ss 0.2 -i '${1}' -i '${1}' ${enc} -filter_complex '
+. $(dirname "$0")/encoding.sh
+cmd="${exe} -ss '${2}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
-deblock,
+setpts=PTS-STARTPTS,
 setsar=1:1,
-setpts=PTS-STARTPTS
+zscale=
+    f=lanczos:
+    size=3840x2160:
+    d=error_diffusion:
+    rin=limited:
+    r=full,
+format=gbrpf32le,
+curves=
+    all='0/0 0.5/0.4 1/1',
+zscale=
+    t=linear,
+tonemap=linear:
+    param=256.0:
+    desat=0,
+zscale=
+    rin=full:
+    r=full:
+    npl=200:
+    t=smpte2084:
+    m=2020_ncl:
+    c=left:
+    p=2020:
 [v];
 
 [1:a]
 asetpts=PTS-STARTPTS
-[a]' -map '[v]' -map '[a]' '${1%.*}-4k.nut'"
+[a]\" -map '[v]' -map '[a]' '${1%.*}-logi.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

@@ -16,7 +16,7 @@ smptehdbars=
    r=25:
    s=1920x1080:
    sar=1:1:
-   d=10,
+   d=60,
 scale=in_range=full:out_range=full
 [v]
 

@@ -3,21 +3,21 @@
 # Ingest video for editing
 #
 # Args:
-# <video in name>
+# <video in name> <offset of time in seconds>
 #
 # Out:
-# <in name>.nut
+# <in name-logi>.nut
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -ss '${2}'  -i '${1}' -i '${1}' ${review_enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
 zscale=
-    f=lanczos:
-    size=3840x2160:
-    d=error_diffusion:
+    size=1280x720:
+    f=point:
+    d=none:
     rin=limited:
     r=full,
 format=gbrp16le,
@@ -38,9 +38,9 @@ zscale=
     p=2020:
 [v];
 
-[0:a]
+[1:a]
 asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' '${1%.*}.nut'"
+[a]\" -map '[v]' -map '[a]' '${1%.*}-logi-review.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
