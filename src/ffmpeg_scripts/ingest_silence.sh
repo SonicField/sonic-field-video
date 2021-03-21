@@ -1,44 +1,45 @@
 #!/bin/zsh
 # Description:
-# Create an alpha mask where green->white
+# Ingest video for editing
 #
 # Args:
-# <video in name> <green color code>
+# <video in name>
 #
 # Out:
-# <in name-mask>.nut
+# <in name>.nut
 #
 
-# Touch up colour points.
 . $(dirname "$0")/encoding.sh
-cmd="${exe}  -i '${1}' ${enc} -filter_complex \"
+len=$($(dirname "$0")/get_length.sh "${1}")
+cmd="${exe} -i '${1}' ${enc} -to "${len}" -filter_complex '
 [0:v]
-setpts=PTS-STARTPTS,
 setsar=1:1,
-format=gbrp16le,
-despill=
-    expand=0:
-    green=-2:
-    blue=0:
-    red=0:
-    brightness=0,
-atadenoise=s=5
+setpts=PTS-STARTPTS,
+atadenoise,
+format=gbrpf32le,
+zscale=
+    f=lanczos:
+    size=3840x2160:
+    d=error_diffusion:
+    r=full,
 zscale=
     t=linear,
 tonemap=linear:
     param=1:
     desat=0,
 zscale=
-    rin=full:
     r=full:
     npl=10000:
-    tin=linear:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020
-[v]
-\" -map '[v]' -map_metadata -1 '${1%.*}-mask.nut'"
+    p=2020:
+[v];
+
+anullsrc=
+    channel_layout=stereo:
+    sample_rate=96K
+[a]' -map '[v]' -map '[a]' '${1%.*}.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -46,4 +47,3 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
-

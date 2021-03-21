@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Description:
-# Create an alpha mask where green->white
+# Ingest from OBS where a green screen has been used
 #
 # Args:
 # <video in name>

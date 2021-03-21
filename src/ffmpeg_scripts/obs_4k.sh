@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Description:
-# Ingest video for editing
+# Ingest video for editing from full HD Obs feed or the logic direect.
 #
 # Args:
 # <video in name>
