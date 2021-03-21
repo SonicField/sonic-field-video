@@ -14,15 +14,12 @@ cmd="${exe} -i '${1}' ${enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
+format=gbrpf32le,
 zscale=
     f=lanczos:
     size=3840x2160:
     d=error_diffusion:
-    rin=limited:
     r=full,
-format=gbrp16le,
-curves=
-    all='0/0 0.5/0.4 1/1',
 zscale=
     t=linear,
 tonemap=linear:

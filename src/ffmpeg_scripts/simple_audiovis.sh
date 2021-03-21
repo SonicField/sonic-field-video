@@ -213,8 +213,7 @@ overlay=
 gradfun=
     strength=8:
     radius=4,
-scale=in_range=full:out_range=full,
-format=gbrpf32le
+scale=in_range=full:out_range=full
 [v]
 \" -map '[v]' tempv.nut"
 echo

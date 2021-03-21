@@ -11,7 +11,7 @@
 
 font_file=$(dirname "$0")/Arial-Unicode.ttf
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -to 10 ${enc} -filter_complex \"
+cmd="${exe} -to 10 ${8bit_enc} -filter_complex \"
 color=
     size=640x1080:
     r=${r}:

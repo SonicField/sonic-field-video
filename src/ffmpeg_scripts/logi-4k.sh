@@ -3,35 +3,31 @@
 # Ingest video for editing
 #
 # Args:
-# <video in name> <offset of time in seconds>
+# <video in name>
 #
 # Out:
 # <in name-logi>.nut
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -ss '${2}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
-zscale=
-    f=lanczos:
-    size=3840x2160:
-    d=error_diffusion:
-    rin=limited:
-    r=full,
+format=gbrp16le,
+atadenoise,
 format=gbrpf32le,
-curves=
-    all='0/0 0.5/0.4 1/1',
 zscale=
     t=linear,
 tonemap=linear:
-    param=256.0:
+    param=1:
     desat=0,
 zscale=
+    size=3840x2160:
     rin=full:
     r=full:
-    npl=200:
+    npl=10000:
+    tin=linear:
     t=smpte2084:
     m=2020_ncl:
     c=left:
@@ -40,7 +36,7 @@ zscale=
 
 [1:a]
 asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' '${1%.*}-logi.nut'"
+[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-logi.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -48,3 +44,15 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+cmd="${exe} -i '${1}' ${audio_enc} '${1%.*}-logi.wav'"
+echo
+echo '================================================================================'
+echo Will Run ${cmd}
+echo '================================================================================'
+echo
+echo $cmd > run.sh
+. ./run.sh
+
+rm run.sh
+

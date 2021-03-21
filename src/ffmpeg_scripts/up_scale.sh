@@ -11,7 +11,7 @@
 
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '$1' ${enc} -vf '
-format=yuv444p12le,
+format=gbrpf3le,
 zscale=
     size=3840x2160:
     d=error_diffusion:

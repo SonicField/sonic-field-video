@@ -15,24 +15,21 @@ cmd="${exe} -i '${1}' ${enc} -to "${len}" -filter_complex '
 [0:v]
 setsar=1:1,
 setpts=PTS-STARTPTS,
+atadenoise,
+format=gbrpf32le,
 zscale=
     f=lanczos:
     size=3840x2160:
     d=error_diffusion:
-    rin=limited:
     r=full,
-format=gbrp16le,
-curves=
-    all='0/0 0.5/0.4 1/1',
 zscale=
     t=linear,
 tonemap=linear:
     param=256.0:
     desat=0,
-scale=in_range=full:out_range=full,
 zscale=
     r=full:
-    npl=200:
+    npl=100:
     t=smpte2084:
     m=2020_ncl:
     c=left:

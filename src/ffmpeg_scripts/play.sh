@@ -6,10 +6,10 @@
 . $(dirname "$0")/encoding.sh
 
 font_file=$(dirname "$0")/Arial-Unicode.ttf
-$(dirname "$0")/ffplay -threads 8 -vf "
+$(dirname "$0")/ffplay -threads 16 -vf "
 format=gbrpf32le,
 zscale=
-    npl=200:
+    npl=250:
     size=1920x1080:
     dither=none:
     f=point:
