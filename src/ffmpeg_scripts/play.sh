@@ -1,7 +1,10 @@
 #!/bin/zsh
 
 # Description:
-# Play a video for review
+# Play a video for review.
+# The output is 8 bit so it is closer to the SDR version
+# The scaling factor of 1/4 is the 4000->1000 nit conversion factor
+# still working on exactly what that is all about.
 
 . $(dirname "$0")/encoding.sh
 
@@ -9,13 +12,13 @@ font_file=$(dirname "$0")/Arial-Unicode.ttf
 $(dirname "$0")/ffplay -threads 16 -vf "
 format=gbrpf32le,
 zscale=
-    npl=250:
+    npl=100:
     size=1920x1080:
     dither=none:
     f=point:
     t=linear,
 tonemap=linear:
-    param=1.0:
+    param=0.25:
     desat=0,
 zscale=
     m=bt709:

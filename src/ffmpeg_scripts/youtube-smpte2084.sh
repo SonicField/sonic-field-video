@@ -4,18 +4,14 @@
 # Produce youtube output
 #
 # Args:
-# <video in> <npl>
-#
-# Nominal peak luminance is a mappig to how bright the image is.
-# A number of 100 causes the youtube result to look a little dark 
-# A number of 200 makes it get over bright
-# Some playing required but a value of 175 looks nice.
-#
+# <video in>
 #
 # Out:
-# <*-youtube-smpte2084-NPL.mp4
-# Where NPL is your nominal peak luminance.
+# <*-youtube-smpte2084.mkv
 #
+
+# The key to this is using tonemap to map the incoming frames to the appropreate 4000 nits of
+# HDR10.  so far I have not seen any nasty scaling issues using this approach.
 
 zmodload zsh/mathfunc
 
@@ -35,7 +31,7 @@ luma="L(${master_pl},1)"
 master="${green}${blue}${red}${whpt}${luma}"
 
 # Guess - need to figure out how to compute this.
-max_cll='500,200'
+max_cll='100,50'
 
 # Get r!
 . $(dirname "$0")/encoding.sh
@@ -61,18 +57,22 @@ $(dirname "$0")/ffmpeg -y \
     -vf "
 format=gbrpf32le,
 zscale=
+    rin=full:
+    r=full:
+    npl=10000:
     tin=smpte2084:
     t=linear,
 tonemap=linear:
     param=1.0:
     desat=0,
 zscale=
-    npl=${2}:
+    npl=10000:
     rin=full:
+    r=full:
     t=smpte2084:
     m=2020_ncl:
     c=left:
     p=2020:
     r=full
-" ${1%.*}-youtube-smpte2084-${2}.mkv
+" ${1%.*}-youtube-smpte2084.mkv
 

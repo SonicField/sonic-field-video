@@ -25,7 +25,7 @@ zscale=
 zscale=
     t=linear,
 tonemap=linear:
-    param=1:
+    param=4:
     desat=0,
 zscale=
     r=full:
@@ -39,7 +39,7 @@ zscale=
 anullsrc=
     channel_layout=stereo:
     sample_rate=96K
-[a]' -map '[v]' -map '[a]' '${1%.*}.nut'"
+[a]' -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

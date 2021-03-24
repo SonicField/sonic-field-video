@@ -1,7 +1,8 @@
 #!/bin/zsh
 
 # Description:
-# Moshes one video onto another
+# Moshes one video onto another assuming they are both in the same
+# colorspace and transfer function!
 #
 # Args:
 # <overlay video> <base video> <cut level> <decay>
@@ -14,42 +15,46 @@
 cmd="${exe} -i '${1}' -i "${2}" ${enc} -filter_complex \
 \"
 [0:v]
-split=2
-[over][inmosh];
+split=2,
+[imosh]
+format=yuv444p16le,
+[overlay];
 
 [inmosh]
+format=yuv444p,
 tblend=
     all_mode=difference,
 scale=
-    h=1080/16:
-    w=1920/16,
+    h=ih/16:
+    w=ih/16,
 scale=
     flags=neighbor:
-    h=1080:
-    w=1920,
+    h=ih*16:
+    w=ih*16,
 lagfun=
     decay=${4},
-geq=
-lum='gt(lum(X,Y),${3})*255':
-    cb='gt(lum(X,Y),${3})*255':
-    cr='gt(lum(X,Y),${3})*255',
-format=yuv444p
-[mosh];
+maskfun=
+    low=${3}:
+    high=${3}:
+    planes=1:
+    fill=white,
+format=yuv444p16le
+[mask];
 
 [1:v]
-format=yuv444p,
+format=yuv444p16le,
 split=2
-[mixer][orig];
+[mixer][base];
 
-[over][mixer]
+[overlay][mixer]
 blend=
   c0_expr='pow(A*B,0.7)':
   c1_expr=(A+B)/2:
   c2_expr=(A+B)/2:
   c3_expr=(A+B)/2
-[newover];
+[distorted];
 
-[orig][newover][mosh]
+[base][distorted][mask]
 maskedmerge
 [v]
 \" -map '[v]' '${1%.*}-mosh.nut'"

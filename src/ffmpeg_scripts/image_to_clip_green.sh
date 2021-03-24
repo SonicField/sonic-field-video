@@ -3,9 +3,10 @@
 # Description:
 # Make and image into a clip.
 # This is tuned to ingest sRGB png files.
+# Takes a despil parameter which should match that for green screen ingestion
 # 
 # Args:
-# <image> <seconds-lenght>
+# <image> <seconds-length> <despill>
 #
 # Out:
 # <*->.nut
@@ -33,6 +34,14 @@ cmd="${exe} -y -i tempv.nut ${enc} -ss 0 -to '${2}' -filter_complex \
 [0:v]
 fps=1,
 setsar=1:1,
+zscale,
+despill=
+    expand=0:
+    green=${3}:
+    blue=0:
+    red=0:
+    brightness=0,
+zscale,
 format=gbrpf32le,
 zscale=
     npl=10000:
