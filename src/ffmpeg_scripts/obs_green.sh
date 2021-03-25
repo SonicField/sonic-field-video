@@ -16,7 +16,8 @@
 voff=$( fps_round $2 )
 desat=24
 cmd="${exe} -ss '${voff}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
-[0:v]
+zscale,
+setpts=PTS-STARTPTS,
 zscale,
 despill=
     expand=0:

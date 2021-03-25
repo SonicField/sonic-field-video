@@ -1,29 +1,19 @@
 #!/bin/zsh
+
 # Description:
-# Use scaling to perform a very slight anti-alias effect.
-# It is very close to a blur but works nicely to not make the image look
-# blurred.
+# Show the forward motion vectors
 #
 # Args:
-# <video in name>
+# <video in> 
 #
 # Out:
-# <in name>-finalized.nut
+# <*-vectors>.nut
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -v verbose -i '${1}' ${enc} -filter_complex \"
-[0:v]
-zscale,
-format=gbrpf32le,
-zscale=
-   w=iw*2:
-   h=ih*2,
-zscale=
-   w=iw/2:
-   h=ih/2
-[v]
-\" -map '[v]' -map_metadata -1 'tempv.nut'"
+
+cmd="${exe} -y -i '${1}' ${review_enc} -max_muxing_queue_size 16384 'tempv.nut'"
+
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -32,7 +22,13 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-cmd="${exe} -i tempv.nut -i '$1' -i '$4' -c:v copy -c:a copy -map 0:v -map 1:a '${1%.*}-finalized.nut'"
+cmd="${exe} -flags2 +export_mvs -i tempv.nut ${enc} -max_muxing_queue_size 16384 -vf '
+zscale,
+codecview=
+    mv_type=fp,
+zscale
+' '${1%.*}-vectors.nut'"
+
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -40,3 +36,4 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+

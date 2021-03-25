@@ -44,7 +44,7 @@ $(dirname "$0")/ffmpeg -y \
     -preset medium \
     -c:a aac \
     -b:a 256k \
-    -pix_fmt yuv444p12le \
+    -pix_fmt yuv420p12le \
     -r ${r} \
     -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp \
     -colorspace bt2020nc \

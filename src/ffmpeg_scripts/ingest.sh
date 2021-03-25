@@ -12,8 +12,11 @@
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '${1}' ${enc} -filter_complex \"
 [0:v]
+zscale,
 setpts=PTS-STARTPTS,
+zscale,
 setsar=1:1,
+zscale,
 format=gbrpf32le,
 zscale=
     f=lanczos:
