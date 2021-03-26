@@ -1,16 +1,37 @@
 #!/bin/zsh
-#
+
 # Description:
-# Add audio to a video.
+# 
+# Create a vivid mix of two videos
 #
 # Args:
-# <video in> <audio in> <output>
+# <overlay video> <base video> 
 #
 # Out:
-# <*-audio>.nut
+# <*-vivid>.nut
+#
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -i '$1' -i '$2' -c:v copy -c:a copy -map 0:v -map 1:a '${1%.*}-audio.nut'"
+cmd="${exe} -i '${1}' -i '${2}' ${enc} -filter_complex \
+\"
+[0:v]
+zscale,
+format=gbrpf32le,
+negate
+[v0];
+
+[1:v]
+zscale,
+format=gbrpf32le
+[v1];
+
+[v0][v1]
+blend=
+    all_mode=vividlight,
+zscale
+[v]
+\" -map '[v]' '${1%.*}-vivid.nut'"
+
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

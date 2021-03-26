@@ -44,3 +44,4 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
+render_complete

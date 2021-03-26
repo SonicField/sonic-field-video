@@ -17,7 +17,7 @@ do
 done
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt ${review_enc} 'fused.nut'"
+cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt ${enc} 'fused.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -28,3 +28,4 @@ echo $cmd > run.sh
 
 rm concat_files.txt
 
+render_complete

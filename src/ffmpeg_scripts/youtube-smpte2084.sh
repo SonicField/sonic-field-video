@@ -31,7 +31,7 @@ luma="L(${master_pl},1)"
 master="${green}${blue}${red}${whpt}${luma}"
 
 # Guess - need to figure out how to compute this.
-max_cll='100,50'
+max_cll='0,0'
 
 # Get r!
 . $(dirname "$0")/encoding.sh
@@ -44,7 +44,7 @@ $(dirname "$0")/ffmpeg -y \
     -preset medium \
     -c:a aac \
     -b:a 256k \
-    -pix_fmt yuv420p12le \
+    -pix_fmt yuv420p10le \
     -r ${r} \
     -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp \
     -colorspace bt2020nc \
@@ -66,7 +66,7 @@ tonemap=linear:
     param=1.0:
     desat=0,
 zscale=
-    npl=10000:
+    npl=7500:
     rin=full:
     r=full:
     t=smpte2084:
@@ -76,3 +76,4 @@ zscale=
     r=full
 " ${1%.*}-youtube-smpte2084.mkv
 
+render_complete
