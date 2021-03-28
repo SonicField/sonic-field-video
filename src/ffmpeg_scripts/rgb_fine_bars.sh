@@ -11,9 +11,9 @@
 
 font_file=$(dirname "$0")/Arial-Unicode.ttf
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -to 10 ${8bit_enc} -filter_complex \"
+cmd="${exe} -to 10 ${bt709_enc} -filter_complex \"
 color=
-    size=640x1080:
+    size=1280x2160:
     r=${r}:
     c=black,
 format=rgb24,
@@ -56,7 +56,7 @@ drawtext=
     fontfile=${font_file}:
     text='YUV422p':
     fontsize=64:
-    x=5+640:
+    x=5+640*2:
     y=5:
     shadowcolor=black:
     shadowx=6:
@@ -67,7 +67,7 @@ drawtext=
     fontfile=${font_file}:
     text='YUV444p':
     fontsize=64:
-    x=5+640*2:
+    x=5+640*4:
     y=5:
     shadowcolor=black:
     shadowx=6:
@@ -84,3 +84,5 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+render_complete

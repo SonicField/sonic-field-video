@@ -14,7 +14,6 @@
 
 . $(dirname "$0")/encoding.sh
 voff=$( fps_round $2 )
-desat=24
 cmd="${exe} -ss '${voff}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
 zscale,
 setpts=PTS-STARTPTS,
@@ -53,5 +52,16 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+cmd="${exe} -i '${1}' ${audio_enc} '${1%.*}-green.wav'"
+echo
+echo '================================================================================'
+echo Will Run ${cmd}
+echo '================================================================================'
+echo
+echo $cmd > run.sh
+. ./run.sh
+
+rm run.sh
 
 render_complete

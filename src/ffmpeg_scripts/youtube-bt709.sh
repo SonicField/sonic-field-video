@@ -18,7 +18,8 @@ zmodload zsh/mathfunc
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx264 \
-    -crf 15 \
+    -crf 9 \
+    -qp 9 \
     -preset medium \
     -c:a aac \
     -b:a 256k \

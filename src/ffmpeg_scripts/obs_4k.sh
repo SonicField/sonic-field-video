@@ -3,14 +3,15 @@
 # Ingest video for editing from full HD Obs feed or the logic direect.
 #
 # Args:
-# <video in name>
+# <video in name> <offset-time>
 #
 # Out:
-# <in name-logi>.nut
+# <in name-4k>.nut
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \"
+voff=$( fps_round $2 )
+cmd="${exe} -ss '${voff}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
@@ -36,7 +37,7 @@ zscale=
 
 [1:a]
 asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-logi.nut'"
+[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-4k.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -45,7 +46,7 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-cmd="${exe} -i '${1}' ${audio_enc} '${1%.*}-logi.wav'"
+cmd="${exe} -i '${1}' ${audio_enc} '${1%.*}-4k.wav'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -56,3 +57,4 @@ echo $cmd > run.sh
 
 rm run.sh
 
+render_complete

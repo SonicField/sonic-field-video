@@ -10,8 +10,11 @@
 # <*-youtube-smpte2084.mkv
 #
 
-# The key to this is using tonemap to map the incoming frames to the appropreate 4000 nits of
-# HDR10.  so far I have not seen any nasty scaling issues using this approach.
+# To be honest, these numbers below (other than the white points) are pretty much magic numbers which 
+# happen to make youtube behave itself and SDR downscale OK given my full range 10 bit pipeline.
+#
+# This is especially so of the npl=7500 in the find zscale - it was arrived at simply by uploading a _lot_
+# of video clips to youtube and seeing what worked.
 
 zmodload zsh/mathfunc
 
@@ -40,7 +43,8 @@ $(dirname "$0")/ffmpeg -y \
     -c:v libx265 \
     -x265-params \
        "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=${max_cll}:hdr10=1:dhdr10-info=metadata.json" \
-    -crf 15 \
+    -crf 5 \
+    -qp 5 \
     -preset medium \
     -c:a aac \
     -b:a 256k \
