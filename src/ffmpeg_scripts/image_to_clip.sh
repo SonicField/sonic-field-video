@@ -17,7 +17,7 @@
 #    O = lin
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -y -i '${1}' -ss 0 -to '${2}' ${bt709_enc} -vf 'scale=size=3840x2160:flags=lanczos:in_range=full:out_range=full,loop=loop=-1:start=0:size=$((${r}*${2})),fps=${r},scale=in_range=full:out_range=full' tempv.nut"
+cmd="${exe} -y -i '${1}' -ss 0 -to '${2}' ${bt709_enc} -vf 'scale=size=3840x2160:flags=lanczos:in_range=full:out_range=full,setsar=1:1,loop=loop=-1:start=0:size=$((${r}*${2})),fps=${r},scale=in_range=full:out_range=full' tempv.nut"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -25,8 +25,6 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 
-div=10
-desat=$((1. - 3./${div}))
 . ./run.sh
 cmd="${exe} -y -i tempv.nut ${enc} -ss 0 -to '${2}' -filter_complex \
 \"

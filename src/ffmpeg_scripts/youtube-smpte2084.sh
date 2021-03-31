@@ -44,11 +44,9 @@ $(dirname "$0")/ffmpeg -y \
     -x265-params \
        "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=${max_cll}:hdr10=1:dhdr10-info=metadata.json" \
     -crf 5 \
-    -qp 5 \
     -preset medium \
-    -c:a aac \
-    -b:a 256k \
-    -pix_fmt yuv420p10le \
+    -c:a copy \
+    -pix_fmt yuv422p10le \
     -r ${r} \
     -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp \
     -colorspace bt2020nc \

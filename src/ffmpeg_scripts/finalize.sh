@@ -12,7 +12,7 @@
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -y -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 zscale=
     rin=full:
@@ -30,18 +30,18 @@ split=2
 [vi1]
 noise=
     all_seed=$(jot -r 1 1 1000000):
-    c0s=10:
-    c1s=5:
-    c2s=5:
+    c0s=8:
+    c1s=4:
+    c2s=4:
     allf=p
 [vn1];
 
 [vi2]
 noise=
     all_seed=$(jot -r 1 1 1000000):
-    c0s=10:
-    c1s=5:
-    c2s=5:
+    c0s=8:
+    c1s=4:
+    c2s=4:
     allf=p
 [vn2];
 
@@ -55,23 +55,13 @@ zscale=
     h=ih/2:
     w=iw/2
 [v]
-\" -map '[v]' -map_metadata -1 'tempv.nut'"
+\" -map '[v]' -map 1:a -map_metadata -1 '${1%.*}-finalized.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
 echo '================================================================================'
 echo
 echo $cmd > run.sh
-. ./run.sh
+. ./run.sh && render_complete
 
-cmd="${exe} -i tempv.nut -i '$1' -c:v copy -c:a copy -map 0:v -map 1:a '${1%.*}-finalized.nut'"
-echo
-echo '================================================================================'
-echo Will Run ${cmd}
-echo '================================================================================'
-echo
-echo $cmd > run.sh
-. ./run.sh
-
-render_complete
 

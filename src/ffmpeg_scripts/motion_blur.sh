@@ -18,7 +18,7 @@ frames=${2}
 # Add 1 so we span input and output frame
 blur=$(( ${frames} * ${3} + 1))
 
-cmd="${exe} -y -v verbose -i '${1}' ${enc} -output_ts_offset 0 -filter_complex \"
+cmd="${exe} -y -v verbose -i '${1}' -i '${1}' ${enc} -output_ts_offset 0 -filter_complex \"
 [0:v]
 zscale,
 format=yuv444p,
@@ -34,20 +34,12 @@ fps=
     fps=${r},
 zscale
 [v]
-\" -map '[v]' -map_metadata -1 'tempv.nut'"
+\" -map '[v]' -map 1:a -map_metadata -1 '${1%.*}-mblur.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
 echo '================================================================================'
 echo
 echo $cmd > run.sh
-. ./run.sh
+. ./run.sh && render_complete
 
-cmd="${exe} -i tempv.nut -i '$1' -c:v copy -c:a copy -map 0:v -map 1:a '${1%.*}-mblur.nut'"
-echo
-echo '================================================================================'
-echo Will Run ${cmd}
-echo '================================================================================'
-echo
-echo $cmd > run.sh
-. ./run.sh
