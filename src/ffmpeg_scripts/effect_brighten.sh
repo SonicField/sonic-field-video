@@ -5,6 +5,8 @@
 #
 # Args:
 # <video in> <brighten amount> <gama ammount>
+# Fuji looks interesting at 1.1 1.2.
+# It will lock overbright to 100% luma - check the waveform!
 #
 # Out:
 # <*-brighten>.nut
@@ -19,7 +21,7 @@ zscale=
    r=full,
 format=yuv444p16le,
 geq=
-    lum='pow((lum(X,Y)/65535)*${2},${3})*65535':
+    lum='min(1.0,pow((lum(X,Y)/65535)*${2},${3}))*65535':
     cr='cr(X,Y)':
     cb='cb(X,Y)',
 zscale=

@@ -43,8 +43,6 @@ cmd="${exe} -i '${1%.*}-fuji-709.nut' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
-format=gbrp16le,
-atadenoise,
 format=gbrpf32le,
 zscale=
     t=linear,
