@@ -1,31 +1,25 @@
 #!/bin/zsh
 # Description:
-# Ingest video for editing from full HD Obs feed or the logic direect.
+# Ingest flog video from the Fugi Xt4 using th flog lut.
+# This assums the foootage is 10 bit 4k - might work with other stuff
+# but might not.
 #
 # Args:
-# <video in name>
+# <video in name> <offset-time of audio> 
 #
 # Out:
-# <in>.nut
+# <in name-green>.nut
 #
 
 . $(dirname "$0")/encoding.sh
 voff=$( fps_round $2 )
-cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
-[0:v]
-zscale=rin=full:r=full,
+cmd="${exe} -i '${1}' ${enc} -filter_complex \"
+zscale,
 setpts=PTS-STARTPTS,
-setsar=1:1,
-zscale=rin=full:r=full,
-format=gbrp16le,
-lut3d=
-    file='flog-bt709.cube':
-    interp=trilinear,
-zscale=rin=full:r=full,
+zscale,
 format=gbrpf32le,
 zscale=
-    rin=full:
-    r=full:
+    npl=10000:
     t=linear,
 tonemap=linear:
     param=4:
@@ -34,15 +28,13 @@ zscale=
     rin=full:
     r=full:
     npl=10000:
+    tin=linear:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020:
-[v];
-
-[1:a]
-asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}.nut'"
+    p=2020
+[v]
+\" -map '[v]' -map_metadata -1 '${1%.*}-ingested.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -50,5 +42,7 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+rm run.sh
 
 render_complete

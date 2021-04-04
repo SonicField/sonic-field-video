@@ -21,7 +21,9 @@ cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt -c:v copy 
 ${exe} -y -i - ${enc} -filter_complex \
 \"
 [0:v]
-format=yuv444p12le,
+scale=in_range=full:out_range=full,
+format=yuv444p16le,
+scale=in_range=full:out_range=full,
 tmix=
     frames=${r}
 [v]
@@ -37,3 +39,4 @@ echo $cmd > run.sh
 
 rm concat_files.txt
 
+render_complete

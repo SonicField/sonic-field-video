@@ -16,7 +16,7 @@
 # Generate the title vioce then compute the frame length
 # of that voice plus 0.5 second.
 # --rate=100 for slow slured voice.
-say "${2}" --rate=100 -v 'Serena' -o tempa.aiff
+say "${2}" -v 'Serena' -o tempa.aiff
 alen=$($(dirname "$0")/get_length.sh tempa.aiff)
 alen=$( fps_round $((${alen}+0.5)) )
 

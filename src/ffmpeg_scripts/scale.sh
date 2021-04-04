@@ -1,23 +1,28 @@
 #!/bin/zsh
 # Description:
-# Upscale to 4K for using in 4K enditing.
+# Scale to size times 960x540.
+# 2 = HD
+# 4 = 4k
+# 8 = 8K
 #
 # Args:
-# <video in name>
+# <video in name> <size>
 #
 # Out:
-# <*-upscaled>.nut
+# <*-scaled>.nut
 #
 
-. $(dirname "$0")/encoding-4k.sh
+size=$((960*${2}))x$((540*${2}))
+
+. $(dirname "$0")/encoding.sh
 cmd="${exe} -i '$1' ${enc} -vf '
-format=yuv444p12le,
+format=gbrpf32le,
 zscale=
-    size=1920x1080:
+    size=${size}:
     d=error_diffusion:
     f=lanczos:
     rangein=full:
-    range=full' '${1%.*}-upscaled.nut'"
+    range=full' '${1%.*}-scaled.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
