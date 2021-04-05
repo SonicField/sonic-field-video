@@ -8,11 +8,11 @@
 font_file=$(dirname "$0")/Arial-Unicode.ttf
 $(dirname "$0")/ffplay -x 1920 -y 1080 -i "${1}" -vf "
 waveform=
-    c=7:
+    c=1:
     m=column:
     e=peak:
     f=color:
-    d=1:
+    d=2:
     g=orange,
 drawtext=
     fontfile=${font_file}:

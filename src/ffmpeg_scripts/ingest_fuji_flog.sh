@@ -11,7 +11,7 @@
 
 . $(dirname "$0")/encoding.sh
 voff=$( fps_round $2 )
-cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -y -i '${1}' -i '${1}' ${twelve_bit_enc} -filter_complex \"
 [0:v]
 zscale=rin=full:r=full,
 setpts=PTS-STARTPTS,
