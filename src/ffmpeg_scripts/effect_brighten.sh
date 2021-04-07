@@ -33,15 +33,15 @@
 #
 # Green
 # -----
-# Scale the green component of color. Only impacts where a color is blue positive.
+# Scale the green component of color. Only impacts where a color is green positive.
 #
 # Blue
 # ----
-# Scale the blue component of color. Only impacts where a color is red positive.
+# Scale the blue component of color. Only impacts where a color is blue positive.
 #
 # Red
 # ---
-# Scale the red component of color. Only impacts where a color is green positive.
+# Scale the red component of color. Only impacts where a color is red positive.
 #
 # Notes:
 # ======
