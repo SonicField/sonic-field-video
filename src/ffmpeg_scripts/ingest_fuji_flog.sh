@@ -1,6 +1,8 @@
 #!/bin/zsh
 # Description:
-# Ingest video for editing from full HD Obs feed or the logic direect.
+# Ingest a fuji XT4 using the flog->bt709 lut.
+# This produces lower contrast more constrained video - see flog-direct.sh
+# for a better way to injest flog.
 #
 # Args:
 # <video in name>

@@ -1,14 +1,14 @@
 #!/bin/zsh
 # Description:
-# Ingest flog video from the Fugi Xt4 using th flog lut.
+# Ingest a Fuji XT4 video assuming it is bt709.
 # This assums the foootage is 10 bit 4k - might work with other stuff
 # but might not.
 #
 # Args:
-# <video in name> <offset-time of audio> 
+# <video in name>
 #
 # Out:
-# <in name-green>.nut
+# <in-bt709>.nut
 #
 
 . $(dirname "$0")/encoding.sh

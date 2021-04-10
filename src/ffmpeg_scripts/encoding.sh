@@ -43,6 +43,9 @@ mov_enc="-c:v libx264 -preset ultrafast -qp 15 -c:a aac -pix_fmt yuv420p10le -co
 # stable for editing. So far the level of compresion applied seems fine for 1-10 passes in a typical edit.
 twelve_bit_enc="-c:v libx265 -x265-params keyint=1:ref=1:no-open-gop=1:weightp=0:weightb=0:cutree=0:rc-lookahead=0:bframes=0:b-adapt=0:strong-intra-smoothing=0 -qp 0 -preset ultrafast -c:a pcm_s32le -ar 96K -pix_fmt yuv422p12le -colorspace bt2020nc -color_primaries bt2020 -color_trc smpte2084 -dst_range 1 -src_range 1 -color_range 2 -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -sws_dither none -sar 1:1 -fflags +igndts -fflags +genpts -vsync 1 -r ${r} -threads ${threads} -g ${r}"
 
+# Experimental VP9 version
+# ========================
+# twelve_bit_enc="-c:v libvpx-vp9 -preset ultrafast -minrate 400M -c:a pcm_s32le -ar 96K -pix_fmt yuv422p12le -colorspace bt2020nc -color_primaries bt2020 -color_trc smpte2084 -dst_range 1 -src_range 1 -color_range 2 -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -sws_dither none -sar 1:1 -fflags +igndts -fflags +genpts -vsync 1 -r ${r} -threads ${threads} -g ${r}"
 
 # Lossless flag version
 # =====================
