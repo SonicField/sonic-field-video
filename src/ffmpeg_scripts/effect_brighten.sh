@@ -8,17 +8,20 @@
 #
 # Examples
 # ========
-#                         br    lg  cg   gr   bl   rd
-# Fuji of bird in sky:    1.07  2   1.0  1.2  2.0  2.0
-# Fuji snow in cotswalds: 1.1   3   1.2  2    4    1
+#                          br   | lg  | cg  | gr  | bl  | rd
+#                          -----+-----+-----+-----+-----+-----
+# Direct flog countryside  1.02 | 1.2 | 1.1 | 1.1 | 0.8 | 1.1     Takes out down the sky a bit - looks nice after soften
+# Control over saturated   1.0  | 1.0 | 0.9 | 1   | 1   | 1       If the near highlights are very saturated this helps
+# Final 'flowers' setting  1.1  | 2   | 1   | 1.2 | 1   | 0.7     Bending luma gama viaully controlled over saturation.
+# Me talking!              1.1  | 1.2 | 1   | 1   | 1   | 0.9     Bit more contrast if the input is bright, less red.
 #
 # Parameters In Detail:
 # =====================
 #
 # brighten amount
 # ---------------
-# Linear multplier of luma before applying gamma curve.
-# Note: As this is applied _before_ gamma the effect is impacted by gamma.
+# Linear multplier of luma after applying gamma curve.
+# This should used to get peak to the legal limit.
 #
 # luma gmama amount
 # -----------------
@@ -30,7 +33,8 @@
 # chroma gamma amount
 # -------------------
 # Inverse of power on chroma.  The higher the number the more saturated low saturation
-# areas will look.  As colors approach pure white the effect deminishes.
+# areas will look.  As colors approach pure white the effect deminishes. Gama is 1/this
+# which makes it visually similar to the gama for luma; i.e. larger number = more staturates.
 #
 # Green
 # -----
@@ -68,9 +72,9 @@ zscale=
    r=full,
 format=yuv444p16le,
 geq=
-    lum='min(1.0,pow((lum(X,Y)/65535)*${2},${3}))*65535':
-    cr='32768*(1+(if(lt(0,st(1, cr(X,Y)/32768-1)), ${7}, -1*${5})*pow(abs(ld(1)), ${cg})))':
-    cb='32768*(1+(if(lt(0,st(1, cb(X,Y)/32768-1)), ${6}, -1*${5})*pow(abs(ld(1)), ${cg})))',
+    lum='min(1.0,pow((lum(X,Y)/65535),${3})*${2})*65535':
+    cr='32767*(1+(if(lt(0,st(1, cr(X,Y)/32767-1)), ${7}, -1*${5})*pow(abs(ld(1)), ${cg})))':
+    cb='32767*(1+(if(lt(0,st(1, cb(X,Y)/32767-1)), ${6}, -1*${5})*pow(abs(ld(1)), ${cg})))',
 zscale=
    rin=full:
    r=full

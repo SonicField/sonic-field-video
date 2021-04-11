@@ -15,11 +15,11 @@ zmodload zsh/mathfunc
 
 # Get r!
 . $(dirname "$0")/encoding.sh
+lut=$(get_lut luminance_-1p00)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx264 \
     -crf 9 \
-    -qp 9 \
     -preset medium \
     -c:a aac \
     -b:a 256k \
@@ -34,23 +34,13 @@ $(dirname "$0")/ffmpeg -y \
     -fflags +igndts \
     -fflags +genpts \
     -vf "
-format=gbrpf32le,
+format=gbrp16le,
 zscale=
-    rin=full:
     r=full:
-    npl=100:
-    dither=none:
-    f=point:
-    t=linear,
-tonemap=linear:
-    param=0.25:
-    desat=0,
-zscale=
-    rin=full:
-    r=full:
-    c=left:
-    m=bt709:
+    npl=3000:
     p=bt709:
-    t=bt709
+    m=bt709:
+    t=bt709:
+    rin=full
 " ${1%.*}-youtube-bt709.mp4
 

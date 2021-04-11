@@ -32,8 +32,8 @@ master="${green}${blue}${red}${whpt}${luma}"
 # Guess - need to figure out how to compute this.
 max_cll='0,0'
 
-# Get r!
 . $(dirname "$0")/encoding.sh
+lut=$(get_lut luminance_-4p00)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx265 \
@@ -52,25 +52,15 @@ $(dirname "$0")/ffmpeg -y \
     -fflags +igndts \
     -fflags +genpts \
     -vf "
-format=gbrpf32le,
 zscale=
     rin=full:
-    r=full:
-    npl=10000:
-    tin=smpte2084:
-    t=linear,
-tonemap=linear:
-    param=1.0:
-    desat=0,
+    r=full,
+format=gbrp16le,
+lut3d=
+    file='${lut}':
+    interp=trilinear,
 zscale=
-    d=error_diffusion:
-    npl=7500:
     rin=full:
-    r=full:
-    t=smpte2084:
-    m=2020_ncl:
-    c=left:
-    p=2020:
     r=full
 " ${1%.*}.mov
 

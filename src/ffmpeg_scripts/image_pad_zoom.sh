@@ -63,23 +63,14 @@ g='g((X-${cx})/(1+${scaler}*N)+${cx}, (Y-${cy})/(1+${scaler}*N)+${cy})':
 b='b((X-${cx})/(1+${scaler}*N)+${cx}, (Y-${cy})/(1+${scaler}*N)+${cy})',
 format=gbrpf32le,
 zscale=
-    f=lanczos:
     rin=full:
     r=full:
-    size=${size}:
-    t=linear,
-tonemap=linear:
-    param=4:
-    desat=0,
-zscale=
-    rin=full:
-    r=full:
-    npl=10000:
-    tin=linear:
+    npl=3000:
+    tin=bt709:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020:
+    p=2020
 [v];
 
 anullsrc=

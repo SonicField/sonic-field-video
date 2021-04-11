@@ -7,23 +7,20 @@
 # still working on exactly what that is all about.
 
 . $(dirname "$0")/encoding.sh
+lut=$(get_lut luminance_-4p00)
 
-font_file=$(dirname "$0")/Arial-Unicode.ttf
-$(dirname "$0")/ffplay -threads 16 -fast -vf "
-format=gbrpf32le,
+${player} -threads 16 -fast -vf "
+format=gbrp16le,
 zscale=
-    npl=100:
-    size=1920x1080:
-    t=linear,
-tonemap=linear:
-    param=0.25:
-    desat=0,
-zscale=
-    m=bt709:
+    rin=full:
+    r=full:
+    npl=3000:
     p=bt709:
-    t=bt709,
+    m=bt709:
+    t=bt709:
+    size=1920x1080,
 drawtext=
-    fontfile=${font_file}:
+    fontfile='${font_file}':
     text='%{n} %{pts\:hms}':
     fontsize=32:
     x=(w-tw)/2:y=h-(2*lh):

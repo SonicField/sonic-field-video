@@ -51,19 +51,14 @@ setpts=PTS-STARTPTS,
 setsar=1:1,
 format=gbrpf32le,
 zscale=
-    t=linear,
-tonemap=linear:
-    param=4:
-    desat=0,
-zscale=
     rin=full:
     r=full:
-    npl=10000:
-    tin=linear:
+    npl=3000:
+    tin=bt709:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020:
+    p=2020
 [v];
 
 anullsrc=

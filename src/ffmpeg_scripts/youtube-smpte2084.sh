@@ -10,11 +10,9 @@
 # <*-youtube-smpte2084.mkv
 #
 
-# To be honest, these numbers below (other than the white points) are pretty much magic numbers which 
-# happen to make youtube behave itself and SDR downscale OK given my full range 10 bit pipeline.
-#
-# This is especially so of the npl=7500 in the find zscale - it was arrived at simply by uploading a _lot_
-# of video clips to youtube and seeing what worked.
+# To take advantage of the full bit depth of the piple line we normally work at about +4 stops.
+# So this script drops 4 stops on output. This works will with a 500 nit display.
+# These numbers will need tweaking for different matering displays.
 
 zmodload zsh/mathfunc
 
@@ -36,8 +34,8 @@ master="${green}${blue}${red}${whpt}${luma}"
 # Guess - need to figure out how to compute this.
 max_cll='0,0'
 
-# Get r!
 . $(dirname "$0")/encoding.sh
+lut=$(get_lut luminance_-4p00)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx265 \
@@ -57,25 +55,15 @@ $(dirname "$0")/ffmpeg -y \
     -fflags +igndts \
     -fflags +genpts \
     -vf "
-format=gbrpf32le,
 zscale=
     rin=full:
-    r=full:
-    npl=10000:
-    tin=smpte2084:
-    t=linear,
-tonemap=linear:
-    param=1.0:
-    desat=0,
+    r=full,
+format=gbrp16le,
+lut3d=
+    file='${lut}':
+    interp=trilinear,
 zscale=
-    d=error_diffusion:
-    npl=7500:
     rin=full:
-    r=full:
-    t=smpte2084:
-    m=2020_ncl:
-    c=left:
-    p=2020:
     r=full
 " ${1%.*}-youtube-smpte2084.mkv
 
