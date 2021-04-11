@@ -28,7 +28,7 @@ echo $cmd > run.sh
 
 . ./run.sh
 
-cmd="${exe} -y -i '${1}' -ss 0 -to '${alen}' ${bt709_enc} -vf 'scale=size=3840x2160:flags=lanczos:in_range=full:out_range=full,loop=loop=-1:start=0:size=$((${r}*${alen})),fps=${r},scale=in_range=full:out_range=full' tempv.nut"
+cmd="${exe} -y -i '${1}' -ss 0 -to '${alen}' ${bt709_enc} -vf \"pad='ih*16/9:ih:(ow-iw)/2:(oh-ih)/2',scale=size=3840x2160:flags=lanczos:in_range=full:out_range=full,loop=loop=-1:start=0:size=$((${r}*${alen})),fps=${r},scale=in_range=full:out_range=full\" tempv.nut"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -47,25 +47,16 @@ cmd="${exe} -y  -ss 0 -i tempv.nut -ss -0.5 -i tempa.wav -to '${alen}' ${enc} -f
 [0:v]
 fps=1,
 setsar=1:1,
-format=gbrpf32le,
+format=gbrp16le,
 zscale=
-    npl=10000:
-    d=error_diffusion:
     rin=full:
     r=full:
-    t=linear,
-tonemap=linear:
-    param=4:
-    desat=0,
-zscale=
-    npl=10000:
-    rin=full:
-    tin=linear:
+    npl=3000:
+    tin=bt709:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020:
-    r=full,
+    p=2020,
 geq=
 r='r(X,Y) * gauss((X/W-0.5)*${vigr})*gauss((Y/H-0.5)*${vigr})/gauss(0)/gauss(0)':
 g='g(X,Y) * gauss((X/W-0.5)*${vigg})*gauss((Y/H-0.5)*${vigg})/gauss(0)/gauss(0)':
