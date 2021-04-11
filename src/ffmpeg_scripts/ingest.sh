@@ -1,29 +1,33 @@
 #!/bin/zsh
 # Description:
-# Ingest video for editing
+# Ingest a fuji XT4 using the flog->bt709 lut.
+# This produces lower contrast more constrained video - see flog-direct.sh
+# for a better way to injest flog.
 #
 # Args:
 # <video in name>
 #
 # Out:
-# <in name>.nut
+# <in>.nut
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -i '${1}' ${enc} -filter_complex \"
+voff=$( fps_round $2 )
+cmd="${exe} -y -i '${1}' -i '${1}' ${twelve_bit_enc} -filter_complex \"
 [0:v]
-zscale,
+zscale=rin=full:r=full,
 setpts=PTS-STARTPTS,
-zscale,
 setsar=1:1,
-zscale,
+zscale=rin=full:r=full,
+format=gbrp16le,
+lut3d=
+    file='flog-bt709.cube':
+    interp=trilinear,
+zscale=rin=full:r=full,
 format=gbrpf32le,
 zscale=
-    f=lanczos:
-    size=3840x2160:
-    d=error_diffusion:
-    r=full,
-zscale=
+    rin=full:
+    r=full:
     t=linear,
 tonemap=linear:
     param=4:
@@ -38,7 +42,7 @@ zscale=
     p=2020:
 [v];
 
-[0:a]
+[1:a]
 asetpts=PTS-STARTPTS
 [a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}.nut'"
 echo
@@ -48,3 +52,5 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+. $(dirname "$0") ./review.sh '${1%.*}.nut'
