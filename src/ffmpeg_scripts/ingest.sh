@@ -7,7 +7,8 @@
 #
 # e.g to get into the pipeline:
 # =============================
-# Fuji flog: flog-smpte2084_4p00
+# Fuji flog: flog-smpte2084_4p00         - If using a direct flog-smpte2084
+# Fuji flog: flog-experimental_0-Native  - If using a range mapped flog-smpte2084 (which does a contrast stretch)
 # bt709:     laminance_4p00
 #
 # Args:
