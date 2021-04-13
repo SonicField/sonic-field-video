@@ -18,7 +18,7 @@ say "${2}" -v 'Serena' -o tempa.aiff
 alen=$($(dirname "$0")/get_length.sh tempa.aiff)
 alen=$( fps_round $((${alen}+0.5)) )
 
-cmd="${exe} -y -i 'tempa.aiff' ${audio_enc} -filter_complex '[0:a][0:a]amerge=inputs=2[a]' -map '[a]' tempa.wav"
+cmd="${exe} -y -i 'tempa.aiff' ${audio_enc} -to ${alen} -filter_complex '[0:a][0:a]amerge=inputs=2,apad=whole_dur=${alen}[a]' -map '[a]' tempa.wav"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
