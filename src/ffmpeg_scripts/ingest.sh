@@ -7,8 +7,8 @@
 #
 # e.g to get into the pipeline:
 # =============================
-# Fuji flog: flog-smpte2084_4p00         - If using a direct flog-smpte2084
-# Fuji flog: flog-experimental_0-Native  - If using a range mapped flog-smpte2084 (which does a contrast stretch)
+# Fuji flog: flog-smpte2084_4p00            - If using a direct flog-smpte2084
+# Fuji flog: flog-smpte2-84-remap_0-Native  - If using a range mapped flog-smpte2084 (which does a contrast stretch)
 # bt709:     laminance_4p00
 #
 # Args:
@@ -20,7 +20,7 @@
 
 . $(dirname "$0")/encoding.sh
 lut=$(get_lut $2)
-cmd="${exe} -y -i '${1}' -i '${1}' ${twelve_bit_enc} -filter_complex \"
+cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 zscale=rin=full:r=full,
 setpts=PTS-STARTPTS,
@@ -29,7 +29,7 @@ zscale=rin=full:r=full,
 format=gbrp16le,
 lut3d=
     file='${lut}':
-    interp=trilinear,
+    interp=tetrahedral,
 zscale=rin=full:r=full
 [v];
 
