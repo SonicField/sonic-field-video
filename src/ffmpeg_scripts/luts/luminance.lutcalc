@@ -1,0 +1,185 @@
+{
+	"version": "v4.01",
+	"cameraBox": {
+		"make": "",
+		"model": "Generic",
+		"shift": 0
+	},
+	"gammaBox": {
+		"recGammaSub": "All",
+		"recGamma": "PQ (EOTF Only)",
+		"recLinGamma": "Rec709",
+		"recContrast": "0",
+		"recGamutSub": "All",
+		"recGamut": "Rec2020",
+		"outGammaSub": "All",
+		"outGamma": "PQ (EOTF Only)",
+		"outLinGamma": "Rec709",
+		"outContrast": "0",
+		"outGamutSub": "All",
+		"outGamut": "Rec2020"
+	},
+	"tweaksBox": {
+		"tweaks": true,
+		"customCS": {
+			"edit": "Rec709",
+			"input": "Rec709",
+			"output": "Rec709",
+			"list": [
+				{
+					"title": "Rec709",
+					"matrix": false,
+					"lock": false,
+					"std": "D65",
+					"wx": 0.3127,
+					"wy": 0.329,
+					"rx": 0.64,
+					"ry": 0.33,
+					"gx": 0.3,
+					"gy": 0.6,
+					"bx": 0.15,
+					"by": 0.06,
+					"wcs": "Rec709",
+					"inMatrix": "1,0,0,0,1,0,0,0,1",
+					"outMatrix": "1,0,0,0,1,0,0,0,1",
+					"cat": "CIECAT02"
+				}
+			]
+		},
+		"whiteBalance": {
+			"doWB": false,
+			"ref": 5500,
+			"lampFree": false,
+			"newTemp": 5500,
+			"lampTemp": 5500,
+			"Duv": 0,
+			"advanced": false,
+			"CAT": "CIECAT02"
+		},
+		"psstCDL": {
+			"doPSSTCDL": false,
+			"basic": true,
+			"channel": "Blue",
+			"control": "Saturation",
+			"colour": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+			"colourLock": "1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0",
+			"saturation": "1,1,1,1,1,1,1,1,1,1,1,1,1,0.999765625,0.999375,0.999296875,1,1.002265625,1.0056250000000002,1.008671875,1.01,1.0086718749999999,1.005625,1.002265625,1,0.999296875,0.9993749999999999,0.9997656249999999,1",
+			"saturationLock": "1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0",
+			"slope": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+			"slopeLock": "1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0",
+			"offset": "-0.01,-0.008671875,-0.005625000000000001,-0.002265625000000001,0,0.000703125,0.0006250000000000001,0.00023437499999999956,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000234375,0.000625,0.0007031250000000002,0,-0.002265625,-0.005625,-0.008671874999999999,-0.01",
+			"offsetLock": "1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0",
+			"power": "0.97,0.973984375,0.9831249999999999,0.9932031249999999,1,1.002109375,1.001875,1.000703125,1,1,1,1,1,1,1,1,1,1,1,1,1,1.000703125,1.001875,1.002109375,1,0.993203125,0.983125,0.9739843750000001,0.97",
+			"powerLock": "1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0",
+			"scaleChroma": true,
+			"scaleLuma": false
+		},
+		"ascCDL": {
+			"doASCCDL": false,
+			"cdl": "1.04,1.04,1.04,0.01,0.01,0.01,1,1,1,1",
+			"channel": "Gray"
+		},
+		"multiTone": {
+			"doMulti": false,
+			"minStop": -8,
+			"maxStop": 8,
+			"saturation": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+			"monoHue": "2",
+			"monoSat": "126",
+			"monoStop": "0"
+		},
+		"highlightGamut": {
+			"doHG": false,
+			"gamut": "Rec2020",
+			"linear": false,
+			"low": 0,
+			"high": 7
+		},
+		"knee": {
+			"doKnee": false,
+			"legal": true,
+			"kneeStart": -1.05,
+			"kneeClip": 8,
+			"clipSlope": 0.9,
+			"smoothness": 1,
+			"max": 8
+		},
+		"blackHighlight": {
+			"doBH": false,
+			"doBlack": true,
+			"doHigh": true,
+			"blackLevel": -4,
+			"blackLock": true,
+			"highRef": 90,
+			"highMap": 48.81,
+			"highLock": true
+		},
+		"blackGamma": {
+			"doBlkGamma": false,
+			"stopLimit": -0.3,
+			"feather": 2,
+			"power": 0.71
+		},
+		"sdrsat": {
+			"doSDRSat": false,
+			"gamma": 1.2
+		},
+		"display": {
+			"doDisplay": false,
+			"baseCS": "PQ (EOTF Only)",
+			"outputCS": "Rec709",
+			"baseGamut": "PQ (EOTF Only)",
+			"outputGamut": "Rec709"
+		},
+		"gamutLim": {
+			"doGamutLim": false,
+			"preLevel": 1,
+			"postLevel": 1,
+			"otherGamut": false,
+			"otherWhich": "Match Output Gamut",
+			"both": true,
+			"when": "pre"
+		},
+		"falseColour": {
+			"doFC": false,
+			"doPurple": true,
+			"doBlue": true,
+			"doGreen": true,
+			"doPink": true,
+			"doOrange": false,
+			"doYellow": true,
+			"doRed": true,
+			"blue": 6.1,
+			"yellow": 0.5,
+			"red": 6
+		}
+	},
+	"generateBox": {
+		"precision": 8
+	},
+	"formats": {
+		"grading": true,
+		"gradeOption": "General cube LUT",
+		"mlutOption": "Sony User 3D MLUT"
+	},
+	"lutBox": {
+		"oneD": false,
+		"meshSize": 65,
+		"legalIn": false,
+		"legalOut": false,
+		"clipOption": 0,
+		"clipLegal": true,
+		"grading": true,
+		"gradeOption": "General cube LUT",
+		"mlutOption": "Sony User 3D MLUT",
+		"scaleCheck": false,
+		"scaleMin": 0,
+		"scaleMax": 1,
+		"inBits": 10,
+		"outBits": 12,
+		"nikonBank": 1,
+		"nikonSharp": 0,
+		"nikonSat": 0,
+		"nikonHue": 0
+	}
+}
