@@ -33,7 +33,7 @@ master="${green}${blue}${red}${whpt}${luma}"
 max_cll='0,0'
 
 . $(dirname "$0")/encoding.sh
-lut=$(get_lut luminance_-4p00)
+lut=$(get_lut luminance-unclipped_-4p00)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx265 \
@@ -48,6 +48,8 @@ $(dirname "$0")/ffmpeg -y \
     -color_primaries bt2020 \
     -color_trc smpte2084 \
     -color_range 2 \
+    -dst_range 1 \
+    -src_range 1 \
     -chroma_sample_location left \
     -fflags +igndts \
     -fflags +genpts \

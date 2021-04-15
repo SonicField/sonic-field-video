@@ -15,7 +15,7 @@ zmodload zsh/mathfunc
 
 # Get r!
 . $(dirname "$0")/encoding.sh
-lut=$(get_lut luminance_-1p00)
+lut=$(get_lut luminance-unclipped_-1p00)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx264 \
@@ -30,6 +30,7 @@ $(dirname "$0")/ffmpeg -y \
     -color_primaries bt709 \
     -color_trc bt709 \
     -color_range 2 \
+    -dst_range 1 \
     -chroma_sample_location left \
     -fflags +igndts \
     -fflags +genpts \
