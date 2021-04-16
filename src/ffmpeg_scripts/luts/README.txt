@@ -39,11 +39,17 @@ These map the full range of flog to the full range of smpte2084. This also has n
 video.  Nevertheless, be warned that smpte2084 has a wider luminance range than flog so if the
 incoming video take 100% of the flog range the resulting smpte2084 video migh have too much constrast.
 
+So far, ingesting with the remap and then tweaking in grading seems to work the best so I am minded
+to leave as is.
+
 boost-highs
 ===========
 
 Add a knee to brigh up highlights. This can brighten up a dull video but can easily be overdone and
 works best is mixed with  drop is stop as well.
+
+Another, more flexible approach is just to use the effect_curves.sh script and bend the curve in any
+way you want.
 
 reduce-x
 ========
@@ -59,4 +65,16 @@ hgl-smpte2084
 =============
 
 Map hybrid log gamma to smpte(pq) gamma. These are full range mappings like the flog remap ones.
+Note that because of the shape of hgl the hgl curve sits lower compared to the smpte2084 curve than does
+the flog one. The consequence of this is that the output will have a slight up shift if brighness of the dark
+areas when identical flog and hgl video is translated.  The alternative would be to shift the black point
+of the lut down.  Also, hgl goes to +6 stops and flog to +5 so that is going to effect the top end and
+stretch the constrast a little on flog compared to hgl.  The question here is 'what is correct'.
+If these settings are not to ones liking then the lutcal files are here to allow tweaking.
 
+broken-rec709-flog-smpte2084
+============================
+
+This is used to demonstrate how if you import from fuji flog using the colour space it says it has
+the colours come out all wrong. Don't use it unless you want super pink skin tones and purple
+sky!
