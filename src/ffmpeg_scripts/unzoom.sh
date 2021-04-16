@@ -26,7 +26,7 @@ frames=$((${len}*${r}))
 scaler=$(( (${3}-1.0)/${frames} ))
 echo "Frame scaler = ${scaler}"
 
-cmd="${exe} -y -i '${1}' ${enc} -ss 0 -to ${len} -filter_complex \
+cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -ss 0 -to ${len} -filter_complex \
 \"
 [0:v]
 zscale=
@@ -40,13 +40,8 @@ geq=
 zscale=
     rin=full:
     r=full
-[v];
-
-anullsrc=
-    channel_layout=stereo:
-    sample_rate=96K
-[a]
-\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-unzoom.nut'"
+[v]
+\" -map '[v]' -map 1:a -map_metadata -1 '${1%.*}-unzoom.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
