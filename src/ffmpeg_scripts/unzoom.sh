@@ -46,7 +46,7 @@ anullsrc=
     channel_layout=stereo:
     sample_rate=96K
 [a]
-\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-zoom.nut'"
+\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-unzoom.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

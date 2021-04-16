@@ -4,18 +4,14 @@
 # Uses an unsharp effect
 #
 # Args:
-# <video in> 
+# <video in> <amount> <scale factor>
+# 1 2 is normal.
+# 2 4 would be rediculous etc.
 #
 # Out:
 # <*-unsharp>.nut
 #
 
-# This is defaulted to making a nice manageable unsharp effect with a radius of about 2 pixels
-# It works via scaling to produce the blured mask.
-# A fully parameterised version could be written - but this 'just works' for 4K high quality input video
-# without blowing out noise or edges so it a good compromise out the box. At is also quite fast by using
-# the highly optimized scaling functions and works at f32 so all good there.
-#
 # Note: Every step reqires zscale to ensure the ranges are correct.
 # Note: The script seems to hang on the last frame without an extra thrown in - check lipsink at some point.
 
@@ -39,13 +35,13 @@ split=3
 
 [vc]
 zscale=
-    h=ih/2:
-    w=iw/2:
+    h=ih/${3}:
+    w=iw/${3}:
     rin=full:
     r=full,
 zscale=
-    h=ih*2:
-    w=iw*2:
+    h=ih*${3}:
+    w=iw*${3}:
     rin=full:
     r=full
 [blured];
@@ -60,7 +56,7 @@ zscale=
 
 [va][vm]
 blend=
-    all_mode=addition,
+    all_expr='A+B*${2}',
 zscale=
    rin=full:
    r=full
