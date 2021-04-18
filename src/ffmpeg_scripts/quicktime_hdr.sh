@@ -33,7 +33,7 @@ master="${green}${blue}${red}${whpt}${luma}"
 max_cll='0,0'
 
 . $(dirname "$0")/encoding.sh
-lut=$(get_lut luminance_-4p00)
+lut=$(get_lut finish-4)
 $(dirname "$0")/ffmpeg -y \
     -i "$1"\
     -c:v libx265 \

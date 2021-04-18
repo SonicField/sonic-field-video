@@ -42,3 +42,13 @@ At the moment the effect_brighten and effect_curves scripts seem to cover these 
 so it is not clear that messing with luts for this is necessary.
 
 Clearly, as new effects are wanted, this might change.
+
+finish
+======
+
+Special luts for the final render to mapp to most of the output space as possible but take peak
+brightness down. These are not 'correct' but level matched for finishing off to get a nice effect
+based on the mastering information in the output scripts.
+
+Currenly finish-4.cube is used. If the MPL were increased then maybe finish-3 or finish-3p5 could be
+used for similar effects.
