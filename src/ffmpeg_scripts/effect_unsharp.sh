@@ -17,6 +17,9 @@
 
 . $(dirname "$0")/encoding.sh
 len=$($(dirname "$0")/get_length.sh "${1}")
+width=$($(dirname "$0")/get_width.sh "${1}")
+height=$($(dirname "$0")/get_height.sh "${1}")
+
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -to ${len} -filter_complex \
 \"
 [0:v]
@@ -40,8 +43,8 @@ zscale=
     rin=full:
     r=full,
 zscale=
-    h=ih*${3}:
-    w=iw*${3}:
+    h=${height}:
+    w=${width}:
     rin=full:
     r=full
 [blured];

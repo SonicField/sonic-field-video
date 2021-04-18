@@ -24,19 +24,11 @@ Using these luts might cause the black level to drop and a slight darkening of t
 I created them for music visualizations where an exported 'pc' range video black should be
 absolutely black.
 
-flog-smpte2084
-==============
-
-A true direct mapping from flog to smpte2084.  This sort of has no meaning because flog
-is a capture colour space and so what is black and what is white will depend on the
-settings of the camera.
-
-flog-smpte2084-remap
+flog
 ====================
 
-These map the full range of flog to the full range of smpte2084. This also has not real meaning
-(see flog-smpte2084 above) however it seems they are more useful to produce strong HDR looking
-video.  Nevertheless, be warned that smpte2084 has a wider luminance range than flog so if the
+These map the full range of flog to the full range of smpte2084.
+Be warned that smpte2084 has a wider luminance range than flog so if the
 incoming video take 100% of the flog range the resulting smpte2084 video migh have too much constrast.
 
 So far, ingesting with the remap and then tweaking in grading seems to work the best so I am minded
@@ -60,17 +52,6 @@ power-xx
 ========
 
 Add a power gamma of amount xx. This is a huge effect - make contrast much greater.
-
-hgl-smpte2084
-=============
-
-Map hybrid log gamma to smpte(pq) gamma. These are full range mappings like the flog remap ones.
-Note that because of the shape of hgl the hgl curve sits lower compared to the smpte2084 curve than does
-the flog one. The consequence of this is that the output will have a slight up shift if brighness of the dark
-areas when identical flog and hgl video is translated.  The alternative would be to shift the black point
-of the lut down.  Also, hgl goes to +6 stops and flog to +5 so that is going to effect the top end and
-stretch the constrast a little on flog compared to hgl.  The question here is 'what is correct'.
-If these settings are not to ones liking then the lutcal files are here to allow tweaking.
 
 broken-rec709-flog-smpte2084
 ============================
