@@ -18,16 +18,9 @@
 font_file=$(dirname "$0")/Arial-Unicode.ttf
 cmd="${exe} -y -i '${1}' ${review_enc} -vf \"
 zscale=
-    npl=1000:
+    npl=3000:
     size=1920x1080:
     rin=full:
-    r=full:
-    t=linear,
-tonemap=linear:
-    param=1,
-zscale=
-    rin=full:
-    tin=linear:
     t=bt709:
     m=bt709:
     c=left:
@@ -35,14 +28,14 @@ zscale=
 drawtext=
     fontfile=${font_file}:
     text='%{n} %{pts\:hms}':
-    fontsize=64:
+    fontsize=48:
     x=(w-tw)/2:y=h-(2*lh):
     shadowcolor=black:
     shadowx=6:
     shadowy=6:
     fontcolor=yellow:
     boxcolor=black
-\"  'view.mov'"
+\"  '${1%.*}-review.mov'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

@@ -36,6 +36,10 @@ format=gbrpf32le
 [vtop][vbottom]
 blend=
     all_expr='if(gt(X,W/2),B,A)',
+geq=
+    r='if(eq(X,W/2), 65535*lt(mod(Y, 20), 10), r(X,Y))':
+    g='if(eq(X,W/2), 65535*lt(mod(Y, 20), 10), g(X,Y))':
+    b='if(eq(X,W/2), 65535*lt(mod(Y, 20), 10), b(X,Y))',
 zscale=
     rin=full:
     r=full

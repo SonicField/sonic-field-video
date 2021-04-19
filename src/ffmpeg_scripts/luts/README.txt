@@ -52,3 +52,23 @@ based on the mastering information in the output scripts.
 
 Currenly finish-4.cube is used. If the MPL were increased then maybe finish-3 or finish-3p5 could be
 used for similar effects.
+
+hdr-sdr
+=======
+
+hdr-sdr
+-------
+
+A mathemetically correct legal range conversion which works for mids and crushes out dark and highlights.
+
+hdr-sdr-optimised
+-----------------
+
+An optimized conversion which will fit the luma so the middle 6 stops of HDR are mapped to the most linear
+part of bt709. This reduces constrast whilst retaining the video quality as much as possible.
+
+sdr-hdr
+=======
+
+Legal range conversion from the entire SDR bt709 range to hdr smpte2084. Should be close to an exact conversion
+allowing the mid point to be correct.
