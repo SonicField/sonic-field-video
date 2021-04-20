@@ -37,4 +37,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-render_complete
+. $(dirname "$0")/review.sh "${1%.*}-old.nut"
+

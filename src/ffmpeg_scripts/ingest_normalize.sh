@@ -41,6 +41,6 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0") ./review.sh '${1%.*}-vlog.nut'
+. $(dirname "$0")/review.sh '${1%.*}-vlog.nut'
 
 render_complete

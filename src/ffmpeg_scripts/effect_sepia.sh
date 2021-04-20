@@ -1,13 +1,15 @@
 #!/bin/zsh
 
 # Description:
-# Simple lock cr and cb to a color - 0.5 0.5 being greytone
+# Make a video into noisy sepia
 #
 # Args:
-# <video in> <cr> <cb>
+# <video in> <noise amount>
+#
+# Noise amount 1 = light goes up from there
 #
 # Out:
-# <*-shift>.nut
+# <*-sepia>.nut
 #
 
 . $(dirname "$0")/encoding.sh
@@ -20,13 +22,13 @@ zscale=
 format=yuv444p16le,
 geq=
     lum='lum(X,Y)':
-    cr=${2}*65535:
-    cb=${3}*65535,
+    cr='32757*1.05':
+    cb='32757*0.9',
 zscale=
    rin=full:
    r=full
 [v]
-\" -map '[v]' -map 1:a '${1%.*}-crcb.nut'"
+\" -map '[v]' -map 1:a '${1%.*}-sepia.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -35,5 +37,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-crcb.nut"
+. $(dirname "$0")/review.sh "${1%.*}-sepia.nut"
 

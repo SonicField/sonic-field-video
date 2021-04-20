@@ -1,25 +1,22 @@
 #!/bin/zsh
 
 # Description:
-# Cut a video between two points
+# Cut a video between two points based on frames.
 #
 # Args:
-# <video in> <cut from seconds> <cut to seconds> 
+# <video in> <cut from frame> <cut to frame> 
 #
 # Out:
-# <*-cut>.nut
+# <*-(from)f-t(fo)>.nut
 #
 
 . $(dirname "$0")/encoding.sh
 
-# Round to the nearest frame - probably not needed but
-# best to be careful.
-
-start=$( fps_round $2 )
-end=$( fps_round $3 )
+start=$((1.0 * ${2} / ${r}))
+# Add one frame at the end as numbering starts at zero!
+end=$(((1.0 + ${3}) / ${r} ))
 length=$(printf %.f "$((${end} - ${start}))")
-afade_end=$(printf %.3f "$((${end} - 0.1))")
-cmd="${exe} -i '${1}' -c:v copy -c:a copy -ss ${start} -to ${end} '${1%.*}-cut.nut'"
+cmd="${exe} -i '${1}' -c:v copy -c:a copy -ss ${start} -to ${end} '${1%.*}-${2}f-${3}f.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

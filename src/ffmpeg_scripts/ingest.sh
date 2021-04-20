@@ -43,6 +43,6 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0") ./review.sh '${1%.*}-lut-${2}.nut'
+. $(dirname "$0")/review.sh '${1%.*}-lut-${2}.nut'
 
 render_complete

@@ -1,32 +1,24 @@
 #!/bin/zsh
 
 # Description:
-# Simple lock cr and cb to a color - 0.5 0.5 being greytone
+# Tmixes a videa
 #
 # Args:
-# <video in> <cr> <cb>
+# <video in> <frame> <quotients>
 #
 # Out:
-# <*-shift>.nut
+# <*-tmix>.nut
 #
 
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \
 \"
 [0:v]
-zscale=
-   rin=full:
-   r=full,
-format=yuv444p16le,
-geq=
-    lum='lum(X,Y)':
-    cr=${2}*65535:
-    cb=${3}*65535,
-zscale=
-   rin=full:
-   r=full
+tmix=
+    frames=${2}:
+    weights='$3'
 [v]
-\" -map '[v]' -map 1:a '${1%.*}-crcb.nut'"
+\" -map '[v]' -map 1:a '${1%.*}-tmix.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -35,5 +27,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-crcb.nut"
+. $(dirname "$0")/review.sh "${1%.*}-tmix.nut"
 
