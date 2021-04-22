@@ -2,6 +2,8 @@
 
 # Description:
 # Cut a video between two points based on frames.
+# Note that unlike time_cut, this is inclusive of the last frame so
+# if you join 0-100 100-1000 - frame 100 would be duplicated.
 #
 # Args:
 # <video in> <cut from frame> <cut to frame> 

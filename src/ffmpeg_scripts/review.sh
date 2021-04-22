@@ -16,10 +16,12 @@
 
 . $(dirname "$0")/encoding.sh
 font_file=$(dirname "$0")/Arial-Unicode.ttf
-cmd="${exe} -y -i '${1}' ${review_enc} -vf \"
+len=$($(dirname "$0")/get_length.sh "${1}")
+cmd="${exe} -y -i '${1}' -to ${len} ${review_enc} -vf \"
 zscale=
     npl=3000:
-    size=1920x1080:
+    w=in_w/2:
+    h=in_h/2:
     rin=full:
     t=bt709:
     m=bt709:

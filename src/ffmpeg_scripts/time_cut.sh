@@ -18,7 +18,7 @@
 start=$( fps_round $2 )
 end=$( fps_round $3 )
 length=$(printf %.f "$((${end} - ${start}))")
-cmd="${exe} -i '${1}' -c:v copy -c:a copy -ss ${start} -to ${end} '${1%.*}-${1}s-${2}s.nut'"
+cmd="${exe} -i '${1}' -c:v copy -c:a copy -ss ${start} -to ${end} '${1%.*}-${2}s-${3}s.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

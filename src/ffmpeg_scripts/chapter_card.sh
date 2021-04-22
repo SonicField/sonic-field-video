@@ -73,4 +73,6 @@ echo Will Run ${cmd}
 echo '================================================================================'
 echo
 echo $cmd > run.sh
-. ./run.sh && render_complete
+. ./run.sh 
+
+. $(dirname "$0")/review.sh "${1%.*}-chapter.nut"

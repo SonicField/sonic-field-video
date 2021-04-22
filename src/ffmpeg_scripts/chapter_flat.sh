@@ -18,9 +18,9 @@
 # --rate=100 for slow slured voice.
 say "${2}" -v 'Serena' -o tempa.aiff
 alen=$($(dirname "$0")/get_length.sh tempa.aiff)
-alen=$( fps_round $((${alen}+0.5)) )
+alen=$( fps_round $((${alen}+1.0)) )
 
-cmd="${exe} -y -i 'tempa.aiff' ${audio_enc} -to ${alen} -filter_complex '[0:a][0:a]amerge=inputs=2,apad=whole_dur=${alen}[a]' -map '[a]' tempa.wav"
+cmd="${exe} -y -i 'tempa.aiff' ${audio_enc} -to ${alen} -filter_complex '[0:a][0:a]amerge=inputs=2,adelay=500|500,apad=whole_dur=${alen}[a]' -map '[a]' tempa.wav"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -39,7 +39,7 @@ echo
 echo $cmd > run.sh
 
 . ./run.sh
-cmd="${exe} -y  -ss 0 -i tempv.nut -ss -0.5 -i tempa.wav -to '${alen}' ${enc} -filter_complex \
+cmd="${exe} -y  -i tempv.nut -i tempa.wav -to '${alen}' ${enc} -filter_complex \
 \"
 [0:v]
 fps=1,
@@ -63,4 +63,6 @@ echo Will Run ${cmd}
 echo '================================================================================'
 echo
 echo $cmd > run.sh
-. ./run.sh && render_complete
+. ./run.sh
+
+. $(dirname "$0")/review.sh "${1%.*}-chapter.nut"

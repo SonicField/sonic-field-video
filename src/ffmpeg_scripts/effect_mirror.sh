@@ -1,21 +1,14 @@
 #!/bin/zsh
 
 # Description:
-# Add a luma curve to a clip
+# Reflect the top of half of a video onto the bottom
 #
 # Args:
-# <video in> <curve definition>
+# <video in> 
 #
 # Out:
-# <*-curves>.nut
+# <*-mirror>.nut
 #
-#
-
-# Examples
-# ========
-#
-# This brings up a dark scene without over crushing - like mobius.
-# 0/0 0.2/0.10 0.5/0.65 0.8/0.85 1/1'
 
 . $(dirname "$0")/encoding.sh
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \
@@ -25,13 +18,15 @@ zscale=
    rin=full:
    r=full,
 format=gbrp16le,
-curves=
-   all='${2}',
+geq=
+r='if(gt(Y,H/2),r(X,H-Y), r(X,Y))':
+g='if(gt(Y,H/2),g(X,H-Y), g(X,Y))':
+b='if(gt(Y,H/2),b(X,H-Y), b(X,Y))',
 zscale=
    rin=full:
    r=full
 [v]
-\" -map '[v]' -map 1:a '${1%.*}-curves.nut'"
+\" -map '[v]' -map 1:a '${1%.*}-mirror.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -40,5 +35,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-curves.nut"
+. $(dirname "$0")/review.sh "${1%.*}-mirror.nut"
 
