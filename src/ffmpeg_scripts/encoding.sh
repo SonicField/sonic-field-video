@@ -38,6 +38,11 @@ function get_lut {
     echo ${base_dir}/luts/${1}.cube
 }
 
+# Get the file name a of a clut using the name (not extension).
+function get_clut {
+    echo ${base_dir}/cluts/${1}.png
+}
+
 # Scale an image from bt709 transfer and bt2020 colour space into smpte2084.
 # Takes the size as a parameter. Take the brightness down below the legal limit using npl.
 # Use a lut to bring this back if too much - but this is normally about correct.

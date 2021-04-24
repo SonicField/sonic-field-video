@@ -4,9 +4,12 @@
 # Uses an unsharp effect
 #
 # Args:
-# <video in> <amount> <scale factor>
+# <video in> <amount> <scale factor> <spline36>
 # 1 2 is normal.
 # 2 4 would be rediculous etc.
+#
+# If spline36 is set to a true value use this as the scale function
+# which is less effective for low raduius but less artefact procusing for large radius.
 #
 # Out:
 # <*-unsharp>.nut
@@ -19,6 +22,9 @@
 len=$($(dirname "$0")/get_length.sh "${1}")
 width=$($(dirname "$0")/get_width.sh "${1}")
 height=$($(dirname "$0")/get_height.sh "${1}")
+
+mode='bilinear'
+[[ ($4) ]] && mode='spline36'
 
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -to ${len} -filter_complex \
 \"
@@ -45,6 +51,7 @@ zscale=
 zscale=
     h=${height}:
     w=${width}:
+    f=${mode}:
     rin=full:
     r=full
 [blured];
