@@ -1,32 +1,67 @@
 #!/bin/zsh
+
 # Description:
-# Create a fast to play review only version of a video called view.mov
-# with time stamps.  Can be viewed in quicktime or ffplay.
-# This uses the Apple hardware encoder so will only work on a Mac.
-# Note that most of the time in this scripts is actually spent decoding incoming
-# hvec is the 12 bit hevc pipeline is used!
+# Produce quicktime viewable HDR.
 #
-# Do not rely on the color or brightness produced - it is 'probably OK' at best.
-#
-# <video in name>
+# Args:
+# <video in>
 #
 # Out:
-# view.mov
+# <*.mov
+#
+#
 #
 
+zmodload zsh/mathfunc
+
+# My Mac screen at max bightness
+# master_pl=500
+# The value normally used - stick with this for now.
+master_pl=500
+# Compute the meta date value for it.
+master_pl=$((${master_pl} *  10000))
+
+# Mastering values based on Rec2020
+green="G($((int(0.17/0.00002))),$((int(0.797/0.00002))))"
+red="R($((int(0.708/0.00002))),$((int(0.292/0.00002))))"
+blue="B($((int(0.313/0.00002))),$((int(0.046/0.00002))))"
+whpt="WP($((int(0.3127/0.00002))),$((int(0.3290/0.00002))))"
+luma="L(${master_pl},1)"
+master="${green}${blue}${red}${whpt}${luma}"
+
+# Guess - need to figure out how to compute this.
+max_cll='0,0'
+
 . $(dirname "$0")/encoding.sh
-font_file=$(dirname "$0")/Arial-Unicode.ttf
-len=$($(dirname "$0")/get_length.sh "${1}")
-cmd="${exe} -y -i '${1}' -to ${len} ${review_enc} -vf \"
+lut=$(get_lut finish-4)
+$(dirname "$0")/ffmpeg -y \
+    -i "$1"\
+    -c:v libx265 \
+    -x265-params "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=${max_cll}:hdr10=1:dhdr10-info=metadata.json:no-open-gop=1" \
+    -tag:v hvc1 \
+    -crf 20 \
+    -preset ultrafast \
+    -pix_fmt yuv420p10le \
+    -r ${r} \
+    -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp \
+    -colorspace bt2020nc \
+    -color_primaries bt2020 \
+    -color_trc smpte2084 \
+    -color_range 2 \
+    -dst_range 1 \
+    -src_range 1 \
+    -chroma_sample_location left \
+    -fflags +igndts \
+    -fflags +genpts \
+    -vf "
 zscale=
-    npl=3000:
-    w=in_w/2:
-    h=in_h/2:
     rin=full:
-    t=bt709:
-    m=bt709:
-    c=left:
-    p=bt709,
+    r=full:
+    w=iw/2:
+    h=ih/2,
+lut3d=
+    file='${lut}':
+    interp=tetrahedral,
 drawtext=
     fontfile=${font_file}:
     text='%{n} %{pts\:hms}':
@@ -36,14 +71,9 @@ drawtext=
     shadowx=6:
     shadowy=6:
     fontcolor=yellow:
-    boxcolor=black
-\"  '${1%.*}-review.mov'"
-echo
-echo '================================================================================'
-echo Will Run ${cmd}
-echo '================================================================================'
-echo
-echo $cmd > run.sh
-. ./run.sh
+    boxcolor=black,
+zscale=
+    rin=full:
+    r=full
+" ${1%.*}-hdr-review.mov
 
-render_complete

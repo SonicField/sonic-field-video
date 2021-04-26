@@ -23,7 +23,8 @@ format=gbrpf32le
 [vc];
 
 [vin][vc]
-haldclut,
+haldclut=
+    interp=tetrahedral,
 zscale=rin=full:r=full
 [v];
 

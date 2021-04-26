@@ -1,7 +1,12 @@
 #!/bin/zsh
 
 # Description:
-# Makes something brighter or darker (exposure basically)
+# Grades a clip using luminosity value and gamma, color gamma and colour levels.
+# However, the color levels only impact where the particular color channel is active in the
+# CR,CB and (synthetic) CG space.  I.E a change in the R value will have no effect if the CR
+# channel is negative (i.e. a shade of green) for example.
+#
+# The result is passed through a gamut limiter lut to stop excessive excursion of the the color channels. 
 #
 # Args:
 # <video in> <brighten amount> <luma gamma amount> <chroma gamma amount> <green> <blue> <red>
@@ -58,12 +63,15 @@
 # red/green is the red/green multiplier = to remove too much red/green  < 1.
 #
 # Out:
-# <*-brighten>.nut
+# <*-brighten-*params*>.nut
 #
 
 cg=$((1.0/${4}))
 
 . $(dirname "$0")/encoding.sh
+lut=$(get_lut bt2020-limiter)
+name="brighten-$2-$3-$4-$5-$6-$7"
+name=$( echo $name | tr . p)
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \
 \"
 [0:v]
@@ -76,10 +84,17 @@ geq=
     cr='32767*(1+(if(lt(0,st(1, cr(X,Y)/32767-1)), ${7}, -1*${5})*pow(abs(ld(1)), ${cg})))':
     cb='32767*(1+(if(lt(0,st(1, cb(X,Y)/32767-1)), ${6}, -1*${5})*pow(abs(ld(1)), ${cg})))',
 zscale=
+    rin=full:
+    r=full,
+format=gbrpf32le,
+lut3d=
+    file='${lut}':
+    interp=tetrahedral,
+zscale=
    rin=full:
    r=full
 [v]
-\" -map '[v]' -map 1:a '${1%.*}-brighten.nut'"
+\" -map '[v]' -map 1:a '${1%.*}-${name}.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -88,4 +103,4 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-brighten.nut"
+. $(dirname "$0")/review.sh "${1%.*}-${name}.nut"

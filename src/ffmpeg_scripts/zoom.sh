@@ -5,7 +5,7 @@
 # Zoom a clip
 #
 # Args:
-# <clip> <size - 2 = 1080> <zoom to (e.g. 1.1)> <lr offset> <tb offset>
+# <clip>  <zoom to (e.g. 1.1)> <lr offset> <tb offset>
 # lr offset = position to zoom to 0 = left, 0.5 = middle
 # tb offset = position to zoom to 0 = top, 0.5 = middle
 # Tidy up an image for 4K
@@ -49,4 +49,4 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-render_complete
+. $(dirname "$0")/review.sh "${1%.*}-zoom.nut"
