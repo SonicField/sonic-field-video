@@ -13,7 +13,7 @@
 
 . $(dirname "$0")/encoding.sh
 lut=$(get_lut flog_0-Native)
-clut=$(get_clut reinhard)
+clut=$(get_clut reinhard-intense)
 cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 zscale=rin=full:r=full,
@@ -24,6 +24,10 @@ format=gbrp16le,
 lut3d=
     file='${lut}':
     interp=tetrahedral,
+normalize=
+    independence=0:
+    strength=1.0:
+    smoothing=24,
 zscale=rin=full:r=full
 [vin];
 
@@ -36,17 +40,8 @@ format=gbrpf32le
 haldclut=
     interp=tetrahedral,
 zscale=
-    rin=full:
-    r=full,
-curves=
-    all='0/0 0.25/0.2 0.75/0.8 1/1',
-normalize=
-    independence=0:
-    strength=0.5:
-    smoothing=48,
-zscale=
    rin=full:
-   r=full
+   r=limited
 [v];
 
 [1:a]

@@ -19,26 +19,27 @@
 # Control over saturated   1.0  | 1.0 | 0.9 | 1   | 1   | 1       If the near highlights are very saturated this helps
 # Final 'flowers' setting  1.1  | 2   | 1   | 1.2 | 1   | 0.7     Bending luma gama viaully controlled over saturation.
 # Me talking!              1.1  | 1.2 | 1   | 1   | 1   | 0.9     Bit more contrast if the input is bright, less red.
+# Beacons Bright Light     1.0  | 0.8 | 1.2 | 1   |0.8  | 1.5     Takes down the sky and makes countryside warm.
 #
-# Parameters In Detail:
+# parameters in detail:
 # =====================
 #
 # brighten amount
 # ---------------
-# Linear multplier of luma after applying gamma curve.
-# This should used to get peak to the legal limit.
+# linear multplier of luma after applying gamma curve.
+# this should used to get peak to the legal limit.
 #
 # luma gmama amount
 # -----------------
-# Raise the scaled luma to this power.
-# This is a simple power gamma.
+# raise the scaled luma to this power.
+# this is a simple power gamma.
 # > 1 more constrast looking, crushed dark.
 # < 1 brighter, crushed highlights.
 #
 # chroma gamma amount
 # -------------------
-# Inverse of power on chroma.  The higher the number the more saturated low saturation
-# areas will look.  As colors approach pure white the effect deminishes. Gama is 1/this
+# inverse of power on chroma.  the higher the number the more saturated low saturation
+# areas will look.  as colors approach pure white the effect deminishes. gama is 1/this
 # which makes it visually similar to the gama for luma; i.e. larger number = more staturates.
 #
 # Green

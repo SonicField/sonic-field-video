@@ -14,24 +14,17 @@
 . $(dirname "$0")/encoding.sh
 start=$((1.0 * ${2} / ${r}))
 end=$(((1.0 + ${2}) / ${r}))
-lut=$(get_lut finish-4)
+lut=$(get_lut smpte2084-srgb-grading)
 cmd="${exe} -ss ${start} -i '${1}' -f lavfi -i haldclutsrc=16 -pix_fmt rgb48be -to ${end}  -filter_complex \
 \"
 [0:v]
+zscale=
+    rin=full:
+    r=full,
+format=gbrp16le,
 lut3d=
     file='${lut}':
     interp=tetrahedral,
-zscale=
-  r=full:
-  rin=full:
-  pin=bt2020:
-  min=bt2020nc: 
-  m=bt709:
-  tin=smpte2084:
-  t=bt709:
-  c=left:
-  p=bt709,
-format=gbrp16le,
 pad='iw:4096:0:0'
 [right];
 

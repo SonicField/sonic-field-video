@@ -1,14 +1,14 @@
 #!/bin/zsh
 # Description:
 # Ingest a video using normalization.
-# This is good for just bringing in video for vlogging and stuff like that
+# This is good for just bringing in video for normalizeging and stuff like that
 # which you want about correct straight away without much grading.
 #
 # Args:
 # <video in name> 
 #
 # Out:
-# <in-vlog>.nut
+# <in-normalize>.nut
 #
 
 . $(dirname "$0")/encoding.sh
@@ -32,7 +32,7 @@ zscale=rin=full:r=full
 
 [1:a]
 asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-vlog.nut'"
+[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-normalize.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -41,6 +41,6 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-vlog.nut"
+. $(dirname "$0")/review.sh "${1%.*}-normalize.nut"
 
 render_complete

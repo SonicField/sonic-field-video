@@ -17,7 +17,7 @@ denoise=''
 [[ ($2) ]] && denoise="atadenoise=s=${2};zscale=rin=full:r=full,"
 
 . $(dirname "$0")/encoding.sh
-lut=$(get_clut clut-mono)
+lut=$(get_clut film-mono)
 len=$($(dirname "$0")/get_length.sh "${1}")
 width=$($(dirname "$0")/get_width.sh "${1}")
 height=$($(dirname "$0")/get_height.sh "${1}")

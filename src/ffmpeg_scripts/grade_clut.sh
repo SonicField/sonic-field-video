@@ -10,25 +10,27 @@
 #
 
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -v verbose -y -i '${1}' -i '${1}' ${enc} -filter_complex \"
+movie='${2}',
+scale=
+    in_range=full:
+    out_range=full
+[lut];
+
 [0:v]
-zscale=rin=full:r=full,
-format=gbrpf32le
+scale=
+    in_range=full:
+    out_range=full
 [vin];
 
-movie='${2}',
-format=gbrpf32le
-[vc];
-
-[vin][vc]
+[vin][lut]
 haldclut=
     interp=tetrahedral,
-zscale=rin=full:r=full
-[v];
-
-[1:a]
-asetpts=PTS-STARTPTS
-[a]\" -map '[v]' -map '[a]' -map_metadata -1 '${1%.*}-${2}.nut'"
+scale=
+    in_range=full:
+    out_range=full
+[v]
+\" -map '[v]' -map 1:a -map_metadata -1 '${1%.*}-${2}.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
