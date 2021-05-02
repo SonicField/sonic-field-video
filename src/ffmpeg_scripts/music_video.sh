@@ -31,9 +31,10 @@ exe="$(dirname "$0")/ffmpeg"
 # =====================
 # - My MBP encodes this at a leisurely 10 fps and gets very hot doing it.
 # - One trick is to add -threads 1 to the command line and just leave it running over night.
+# - Though the CPU load is not too bad using the hardware encoder.
 # - Alternatively - work on streamlining the filters.
 
-enc="-c:v libx264 -preset medium -tune film -crf 18 -s 1920x1080 -sar 1:1 -r 50 -pix_fmt yuv444p10le -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -colorspace 1 -color_primaries 1 -color_trc 1 -dst_range 1 -color_range 1"
+enc=" -c:v h264_videotoolbox -b:v 20M -s 1920x1080 -sar 1:1 -r 50 -pix_fmt nv12 -colorspace 1 -color_primaries 1 -color_trc 1 -dst_range 1 -color_range 1"
 
 cmd="${exe} -y -i '${1}' -i '${2}' ${enc} -ss 0 -to ${len} -filter_complex \
 \"
@@ -166,7 +167,7 @@ echo $cmd > run.sh
 
 $(dirname "$0")/ffmpeg -y -i "${1}" -c:a pcm_s32le -ar 96K tempa.nut
 
-export cmd="${exe} -i tempa.nut -i tempv.nut -c:v copy -c:a aac -b:a 256k -map 1:v -map 0:a '${1%.*}-music-video.mp4'"
+export cmd="${exe} -y -i tempa.nut -i tempv.nut -c:v copy -c:a aac -b:a 256k -map 1:v -map 0:a '${1%.*}-music-video.mp4'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}

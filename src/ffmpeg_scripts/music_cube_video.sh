@@ -38,7 +38,7 @@ z_rate=$((${r} * 3))
 
 len=$($(dirname "$0")/get_length.sh "${1}")
 exe="$(dirname "$0")/ffmpeg"
-enc="-c:v libx264 -preset medium -tune film -crf 18 -s 1920x1080 -sar 1:1 -r 50 -pix_fmt yuv444p10le -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -colorspace bt2020nc -color_primaries bt2020 -color_trc smpte2084 -dst_range 1 -color_range 1"
+enc="-c:v libx264 -preset medium -tune film -crf 18 -s 1920x1080 -sar 1:1 -r 50 -pix_fmt yuv420p10le -sws_flags +accurate_rnd+full_chroma_int+full_chroma_inp -colorspace bt2020nc -color_primaries bt2020 -color_trc smpte2084 -dst_range 1 -color_range 1"
 cmd="${exe} -y -i '${1}' -i '${2}' ${enc} -ss 0 -to ${len} -filter_complex \
 \"
 [1:v]

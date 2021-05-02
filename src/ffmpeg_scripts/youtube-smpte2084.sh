@@ -4,11 +4,17 @@
 # Produce youtube output
 #
 # Args:
-# <video in>
+# <video in> <?scale>
 #
 # Out:
 # <*-youtube-smpte2084.mkv
 #
+# Is scale is present then will scale to that time 960x540 
+#
+
+size=''
+[[ ${2} ]] && size="size=$((960*${2}))x$((540*${2})):f=lanczos:"
+
 
 # To take advantage of the full bit depth of the piple line we normally work at about +4 stops.
 # So this script drops 4 stops on output. This works will with a 500 nit display.
@@ -64,6 +70,7 @@ lut3d=
     file='${lut}':
     interp=tetrahedral,
 zscale=
+    ${size}
     rin=full:
     r=full
 " ${1%.*}-youtube-smpte2084.mkv

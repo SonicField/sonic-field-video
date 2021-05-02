@@ -7,6 +7,8 @@
 # channel is negative (i.e. a shade of green) for example.
 #
 # The result is passed through a gamut limiter lut to stop excessive excursion of the the color channels. 
+# As a concequence - driving the colour to rediculous levels causes it to produce saturated primaries not out
+# of gamut which can have interesting effects.
 #
 # Args:
 # <video in> <brighten amount> <luma gamma amount> <chroma gamma amount> <green> <blue> <red>
@@ -16,10 +18,11 @@
 #                          br   | lg  | cg  | gr  | bl  | rd
 #                          -----+-----+-----+-----+-----+-----
 # Direct flog countryside  1.02 | 1.2 | 1.1 | 1.1 | 0.8 | 1.1     Takes out down the sky a bit - looks nice after soften
-# Control over saturated   1.0  | 1.0 | 0.9 | 1   | 1   | 1       If the near highlights are very saturated this helps
+# Control over saturated   1    | 1.0 | 0.9 | 1   | 1   | 1       If the near highlights are very saturated this helps
 # Final 'flowers' setting  1.1  | 2   | 1   | 1.2 | 1   | 0.7     Bending luma gama viaully controlled over saturation.
 # Me talking!              1.1  | 1.2 | 1   | 1   | 1   | 0.9     Bit more contrast if the input is bright, less red.
-# Beacons Bright Light     1.0  | 0.8 | 1.2 | 1   |0.8  | 1.5     Takes down the sky and makes countryside warm.
+# Beacons Bright Light     1    | 0.8 | 1.2 | 1   | 0.8 | 1.5     Takes down the sky and makes countryside warm.
+# Total madness of color   1    | 2   | 3   | 1   | 1   | 1       Turns everything into intense pure colours.
 #
 # parameters in detail:
 # =====================

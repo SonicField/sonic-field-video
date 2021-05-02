@@ -5,11 +5,19 @@
 # which you want about correct straight away without much grading.
 #
 # Args:
-# <video in name> 
+# <video in name> <?normalize>
 #
 # Out:
 # <in-vlog>.nut
 #
+#
+
+# if normalize is set to a true value then normalize - otherwise don't
+normalize=''
+[[ ${2} ]] && normalize='normalize=
+    independence=0:
+    strength=1.0:
+    smoothing=24,'
 
 . $(dirname "$0")/encoding.sh
 lut=$(get_lut flog_0-Native)
@@ -24,10 +32,7 @@ format=gbrp16le,
 lut3d=
     file='${lut}':
     interp=tetrahedral,
-normalize=
-    independence=0:
-    strength=1.0:
-    smoothing=24,
+${normalize}
 zscale=rin=full:r=full
 [vin];
 
