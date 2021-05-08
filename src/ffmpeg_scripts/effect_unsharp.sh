@@ -7,6 +7,7 @@
 # <video in> <amount> <scale factor> <spline36>
 # 1 2 is normal.
 # 2 4 would be rediculous etc.
+# 2 1.5 is interesting - it is more like a traditional edge sharp and works well on 1080->4K upscale.
 #
 # If spline36 is set to a true value use this as the scale function
 # which is less effective for low raduius but less artefact procusing for large radius.

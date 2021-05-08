@@ -39,7 +39,7 @@ $(dirname "$0")/ffmpeg -y \
     -c:v libx265 \
     -x265-params "repeat-headers=1:hdr-opt=1:colorprim=bt2020:transfer=smpte2084:colormatrix=bt2020nc:master-display=${master}:max-cll=${max_cll}:hdr10=1:dhdr10-info=metadata.json" \
     -tag:v hvc1 \
-    -crf 5 \
+    -b:v 200M \
     -preset medium \
     -pix_fmt yuv420p10le \
     -r ${r} \

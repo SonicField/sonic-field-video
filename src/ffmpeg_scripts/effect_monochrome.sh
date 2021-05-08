@@ -35,5 +35,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-monocrhome.nut"
+. $(dirname "$0")/review.sh "${1%.*}-monochrome.nut"
 
