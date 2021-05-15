@@ -21,13 +21,29 @@
 #  Settings I have used
 #  ====================
 #
-#  Warm to blue (coutryside):
-#  --------------------------
+#  Warm to blue (countryside):
+#  ---------------------------
 # '0/0 1/1' '0/0 1/1' '0/0 0.2/0.1 0.8/0.8 0.9/0.95 1/1' '0/0 0.2/0.3 0.8/0.8 1/1' '0/0 0.2/0.1 0.5/0.4 0.8/0.85 1/1'
+#
+#  Strong blue-red false colour for monochrome:
+#  --------------------------------------------
+#  '0/0 1/1' '0/0 1/1' '0/0 0.3/0.1 0.6/0.6 0.7/0.8 0.9/0.95 1/1' '0/0 0.2/0.4 0.7/0.7 1/1' '0/0 0.2/0.1 0.5/0.4 0.8/0.85 1/1'
 #
 #  Dark cold intro
 #  ---------------
 #  '0/0 0.5/0.1 1/0.5'
+#
+#  Bring down blow out monochrome highlights
+#  -----------------------------------------
+#  Sometimes importing 'Arcros' Fuji monochrome stills comes out too bright, this seems to get them
+#  back to where they should be.
+#  '0/0 0.3/0.20 0.5/0.45 0.95/0.9 1/1'
+#
+#  Dusk To Day
+#  -----------
+#
+#  Post normalization:
+#  '0/0 0.4/0.55 0.9/0.9 1/1'
 #
 # Out:
 # <*-curves>.nut

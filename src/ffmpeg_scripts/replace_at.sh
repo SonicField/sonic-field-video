@@ -14,7 +14,7 @@ rlen=$($(dirname "$0")/get_length.sh "${2}")
 stime=${3}
 etime=$((${3}+${rlen}))
 . $(dirname "$0")/encoding.sh
-cmd="${exe} -i '${1}' -i '${2}' -i '${1}' ${review_enc} -filter_complex \
+cmd="${exe} -i '${1}' -i '${2}' -i '${1}' ${enc} -filter_complex \
 \"
 [1:v]
 tpad=

@@ -12,7 +12,7 @@
 
 . $(dirname "$0")/encoding.sh
 
-cmd="${exe} -y -i '${1}' ${review_enc} -max_muxing_queue_size 16384 'tempv.nut'"
+cmd="${exe} -y -i '${1}' ${ten_bit_enc} -max_muxing_queue_size 16384 'tempv.nut'"
 
 echo
 echo '================================================================================'
