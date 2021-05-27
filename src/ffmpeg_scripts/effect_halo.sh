@@ -2,6 +2,11 @@
 
 # Description:
 # Uses an localized contrast enhancement effect similar to large radius 'clarity'.
+# Not a classic unsharp - use unsharp for that. This is tuned for larger radius local
+# contrast work by bluring a down scaled version of the video for performance and using
+# a pre-curve to condition the image so the added contrast does not cause peek white to exceed
+# 100% an wrap around (the samme effect probably could happen with peak black but I have not
+# yet seen it).
 #
 # Args:
 # <video in> <pre-curve> <original> <difference> <size>
@@ -12,7 +17,7 @@
 # '0/0 0.1/0.15 1/0.85' 0.8 1.5 128 less extreme
 #
 # Out:
-# <*-lch>.nut
+# <*-halo-*params*>.nut
 #
 
 # Note: Every step reqires zscale to ensure the ranges are correct.
@@ -22,7 +27,10 @@
 len=$($(dirname "$0")/get_length.sh "${1}")
 width=$($(dirname "$0")/get_width.sh "${1}")
 height=$($(dirname "$0")/get_height.sh "${1}")
-
+name="halo-$2-$3-$4-$5"
+name=$( echo $name | tr . p)
+name=$( echo $name | tr / =)
+name=$( echo $name | tr ' ' _)
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -to ${len} -filter_complex \
 \"
 [0:v]
@@ -78,7 +86,7 @@ zscale=
    rin=full:
    r=full
 [v]
-\" -map '[v]' -map 1:a '${1%.*}-lch.nut'"
+\" -map '[v]' -map 1:a '${1%.*}-${name}.nut'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -87,5 +95,5 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-. $(dirname "$0")/review.sh "${1%.*}-lch.nut"
+. $(dirname "$0")/review.sh "${1%.*}-${name}.nut"
 

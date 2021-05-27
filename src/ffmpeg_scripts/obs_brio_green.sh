@@ -29,16 +29,13 @@ atadenoise=s=5,
 zscale,
 format=gbrpf32le,
 zscale=
-    npl=10000:
-    t=linear,
-tonemap=linear:
-    param=4:
-    desat=0,
-zscale=
+    size=3840x2160:
     rin=full:
     r=full:
-    npl=10000:
-    tin=linear:
+    npl=3000:
+    tin=bt709:
+    min=bt709:
+    pin=bt709:
     t=smpte2084:
     m=2020_ncl:
     c=left:
@@ -62,6 +59,4 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-rm run.sh
-
-render_complete
+. $(dirname "$0")/review.sh "${1%.*}-green.nut"

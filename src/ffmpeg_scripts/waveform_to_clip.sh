@@ -81,4 +81,6 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 
-. ./run.sh && render_complete || render_failed
+. ./run.sh
+
+. $(dirname "$0")/review.sh ${1%.*}-waveform.nut

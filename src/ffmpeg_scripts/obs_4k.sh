@@ -11,7 +11,7 @@
 
 . $(dirname "$0")/encoding.sh
 voff=$( fps_round $2 )
-cmd="${exe} -ss '${voff}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
+cmd="${exe} -y -ss '${voff}' -i '${1}' -i '${1}' ${enc} -filter_complex \"
 [0:v]
 setpts=PTS-STARTPTS,
 setsar=1:1,
@@ -19,20 +19,17 @@ format=gbrp16le,
 atadenoise,
 format=gbrpf32le,
 zscale=
-    t=linear,
-tonemap=linear:
-    param=4:
-    desat=0,
-zscale=
     size=3840x2160:
     rin=full:
     r=full:
-    npl=10000:
-    tin=linear:
+    npl=3000:
+    tin=bt709:
+    min=bt709:
+    pin=bt709:
     t=smpte2084:
     m=2020_ncl:
     c=left:
-    p=2020:
+    p=2020
 [v];
 
 [1:a]
@@ -46,7 +43,7 @@ echo
 echo $cmd > run.sh
 . ./run.sh
 
-cmd="${exe} -i '${1}' ${audio_enc} '${1%.*}-4k.wav'"
+cmd="${exe} -y -i '${1}' ${audio_enc} '${1%.*}-4k.wav'"
 echo
 echo '================================================================================'
 echo Will Run ${cmd}
@@ -57,4 +54,4 @@ echo $cmd > run.sh
 
 rm run.sh
 
-render_complete
+. $(dirname "$0")/review.sh "${1%.*}-4k.nut"
