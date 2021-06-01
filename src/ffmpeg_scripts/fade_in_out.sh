@@ -24,6 +24,10 @@ afade=
     d=${2}
 [a];
 [0:v]
+zscale=
+    rin=full:
+    r=full,
+format=yuv444p16le,
 fade=
     t=in:
     st=0:
@@ -33,7 +37,10 @@ fade=
     t=out:
     st=$((${len}-${2})):
     c=${4}:
-    d=${2}
+    d=${2},
+zscale=
+    rin=full:
+    r=full
 [v]
 ' -map '[v]' -map '[a]' '${1%.*}-fade-in-out.nut'"
 
@@ -44,3 +51,5 @@ echo '==========================================================================
 echo
 echo $cmd > run.sh
 . ./run.sh
+
+. $(dirname "$0")/review.sh "${1%.*}-fade-in-out.nut"

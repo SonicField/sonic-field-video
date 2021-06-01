@@ -2,19 +2,16 @@
 
 # Description:
 # Uses an localized contrast enhancement effect similar to large radius 'clarity'.
-# Not a classic unsharp - use unsharp for that. This is tuned for larger radius local
-# contrast work by bluring a down scaled version of the video for performance and using
-# a pre-curve to condition the image so the added contrast does not cause peek white to exceed
-# 100% an wrap around (the samme effect probably could happen with peak black but I have not
-# yet seen it).
+# Can also be used at small radius for a classic 'unsharp' effect.
 #
 # Args:
 # <video in> <pre-curve> <original> <difference> <size>
-# '0/0 1/1' 0.75 1.5 16 is vibrant though dark
-# '0/0 1/1' 0.75 1   64 really pops
-# '0/0 0.1/0.2 1/0.75' 0.75 2 64 strange crushed but bright effect
-# '0/0 0.1/0.2 1/0.75' 0.8 2.5 128 landscape photographer look ;-)
-# '0/0 0.1/0.15 1/0.85' 0.8 1.5 128 less extreme
+# '0/0 1/1' 0.75 1.5 64 is vibrant though dark
+# '0/0 1/1' 0.75 1   256 really pops
+# '0/0 0.1/0.2 1/0.75' 0.75 2 256 strange crushed but bright effect
+# '0/0 0.1/0.2 1/0.75' 0.8 2.5 512 landscape photographer look ;-)
+# '0/0 0.1/0.15 1/0.85' 0.8 1.5 512 less extreme
+# '0/0.05 0.5/0.55 1/0.85' 1.0 0.75. 256 post remap intense
 #
 # Out:
 # <*-halo-*params*>.nut
@@ -55,17 +52,11 @@ split=3
 
 [vc]
 zscale=
-    h=ih/4:
-    w=iw/4:
-    f=spline36:
     rin=full:
     r=full,
 gblur=
     sigma=${5},
 zscale=
-    h=${height}:
-    w=${width}:
-    f=spline36:
     rin=full:
     r=full,
 format=gbrpf32le

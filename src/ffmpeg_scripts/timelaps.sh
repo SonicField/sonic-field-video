@@ -9,14 +9,16 @@
 # <timelaps>.nut
 #
 
+. $(dirname "$0")/encoding.sh
 rm concat_files.txt 2>/dev/null
+len=0
 for file in $@
 do
     echo file ${file} >> concat_files.txt
+    len=$((len + 1./${r}))
 done
 size=3840x2160
-. $(dirname "$0")/encoding.sh
-cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt ${enc} -filter_complex \
+cmd="${exe} -f concat -safe 0 -guess_layout_max 0 -i concat_files.txt -to ${len} ${enc} -filter_complex \
 \"
 [0:v]
 scale=in_range=full:out_range=full,

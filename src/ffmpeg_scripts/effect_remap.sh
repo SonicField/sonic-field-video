@@ -26,6 +26,7 @@
 # Warm summer day          1.2  | 1.4 | 1.7  | 0.5 | 0.3 | 0.5 
 # Colourised effect        1.2  | 1.4 | 3.0  | 0.2 | 0.2 | 0.2
 # Gentle Old Colour        1.1  | 1.1 | 1.25 | 0.5 | 0.8 | 0.8
+# The Waterfall effect     1.2  | 1.4 | 1.5  | 0.6 | 0.6 | 0.6
 #
 # Out:
 # <*-remap-*params*>.nut

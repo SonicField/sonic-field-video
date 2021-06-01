@@ -14,9 +14,16 @@
 cmd="${exe} -i '${1}' -i '${1}' ${enc} -filter_complex \
 \"
 [0:v]
+zscale=
+    rin=full:
+    r=full,
+format=yuv444p16le,
 tmix=
     frames=${2}:
-    weights='$3'
+    weights='${3}',
+zscale=
+    rin=full:
+    r=full
 [v]
 \" -map '[v]' -map 1:a '${1%.*}-tmix.nut'"
 echo
